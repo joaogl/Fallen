@@ -1,5 +1,11 @@
 package net.joaolourenco.lightdemo.world.tile;
 
+import java.util.ArrayList;
+
+import net.joaolourenco.lightdemo.Main;
+import net.joaolourenco.lightdemo.entity.Entity;
+import net.joaolourenco.lightdemo.entity.light.Light;
+import net.joaolourenco.lightdemo.graphics.Buffer;
 import net.joaolourenco.lightdemo.graphics.Shader;
 import net.joaolourenco.lightdemo.world.World;
 
@@ -35,10 +41,46 @@ public abstract class Tile {
 		else if (!this.lightCollidable && !shade.getFragPath().contains("lightMix")) shade = new Shader("res/shaders/lightMix.frag", "res/shaders/entity.vert");
 	}
 
-	public void render(int x, int y, World w) {
+	public void render(int x, int y, World w, ArrayList<Entity> ent) {
 		shade.bind();
 
+		float[] positions = new float[ent.size() * 2];
+		float[] colors = new float[ent.size() * 3];
+		float[] intensities = new float[ent.size()];
+		float[] inUse = new float[50];
+
+		for (int i = 0; i < ent.size() * 2; i += 2) {
+			float xx = ent.get(i >> 1).getX() - w.getXOffset();
+			float yy = Main.HEIGHT - (ent.get(i >> 1).getY() - w.getYOffset());
+
+			positions[i] = xx;
+			positions[i + 1] = yy;
+
+			System.out.println("Light: " + i + " X: " + xx + " Y: " + yy + " Light:" + w.DAY_LIGHT);
+		}
+
+		for (int i = 0; i < ent.size(); i++) {
+			intensities[i] = ((Light) ent.get(i)).intensity;
+		}
+
+		for (int i = 0; i < 50; i++) {
+			if (i < ent.size() && ent.get(i) != null) inUse[i] = 1;
+			else inUse[i] = 0;
+		}
+
+		for (int i = 0; i < ent.size() * 3; i += 3) {
+			colors[i] = ((Light) ent.get(i / 3)).red;
+			colors[i + 1] = ((Light) ent.get(i / 3)).green;
+			colors[i + 2] = ((Light) ent.get(i / 3)).blue;
+		}
+
 		glUniform1f(glGetUniformLocation(shade.getShade(), "dayLight"), w.DAY_LIGHT);
+
+		glUniform2(glGetUniformLocation(shade.getShade(), "lightPosition"), Buffer.createFloatBuffer(positions));
+		glUniform3(glGetUniformLocation(shade.getShade(), "lightColor"), Buffer.createFloatBuffer(colors));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightIntensity"), Buffer.createFloatBuffer(intensities));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightInUse"), Buffer.createFloatBuffer(inUse));
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 

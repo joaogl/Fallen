@@ -108,7 +108,7 @@ public class World {
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
 				Tile tile = getTile(x, y);
-				if (tile != null) tile.render(x << Main.TILE_SIZE_MASK, y << Main.TILE_SIZE_MASK, this);
+				if (tile != null) tile.render(x << Main.TILE_SIZE_MASK, y << Main.TILE_SIZE_MASK, this, getNearByLights(x << Main.TILE_SIZE_MASK, y << Main.TILE_SIZE_MASK));
 			}
 		}
 		glColor3f(1f, 1f, 1f);
@@ -125,6 +125,19 @@ public class World {
 
 	public double getDistance(Entity a, Entity b) {
 		return Math.sqrt(Math.pow((b.getX() - a.getX()), 2) + Math.pow((b.getY() - a.getY()), 2));
+	}
+
+	public double getDistance(Entity a, float x, float y) {
+		return Math.sqrt(Math.pow((x - a.getX()), 2) + Math.pow((y - a.getY()), 2));
+	}
+
+	public ArrayList<Entity> getNearByLights(float x, float y) {
+		ArrayList<Entity> ent = new ArrayList<Entity>();
+
+		for (Entity e : entities)
+			if (e instanceof Light && getDistance(e, x, y) < 800) ent.add(e);
+
+		return ent;
 	}
 
 	public void update() {
