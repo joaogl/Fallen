@@ -8,7 +8,6 @@ import net.joaolourenco.lightdemo.entity.Entity;
 import net.joaolourenco.lightdemo.graphics.Shader;
 import net.joaolourenco.lightdemo.world.tile.Tile;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -17,7 +16,13 @@ import static org.lwjgl.opengl.GL20.*;
 public abstract class Light extends Entity {
 
 	public Vector2f location;
-	public float red, green, blue, intensity;
+
+	/**
+	 * Type 1 for PointLight
+	 * Type 2 for DirectionalLight
+	 * Type 3 for SpotLight
+	 */
+	public float red, green, blue, intensity, type, hasLightSpot, facing, size;
 	public Shader shade = new Shader("res/shaders/light.frag");
 
 	public Light(Vector2f location, float red, float green, float blue) {
@@ -26,6 +31,8 @@ public abstract class Light extends Entity {
 		this.green = green;
 		this.blue = blue;
 		this.intensity = (float) (new Random().nextGaussian() / 5) * 3;
+		this.type = 1;
+		this.hasLightSpot = 1;
 	}
 
 	public Light(Vector2f location, float red, float green, float blue, float inte) {
@@ -34,10 +41,15 @@ public abstract class Light extends Entity {
 		this.green = green;
 		this.blue = blue;
 		this.intensity = inte;
+		this.hasLightSpot = 1;
 	}
 
 	public void update() {
-		if (Keyboard.isKeyDown(Keyboard.KEY_R)) shade.recompile();
+		if (this.facing <= 360) this.facing++;
+		else this.facing = 0;
+		this.size = 90;
+		//if (Keyboard.isKeyDown(Keyboard.KEY_R)) 
+		shade.recompile();
 	}
 
 	public abstract void tick();
@@ -49,6 +61,10 @@ public abstract class Light extends Entity {
 		glUniform1f(glGetUniformLocation(shade.getShade(), "lightInt"), this.intensity);
 		glUniform2f(glGetUniformLocation(shade.getShade(), "lightLocation"), xx, Main.HEIGHT - yy);
 		glUniform3f(glGetUniformLocation(shade.getShade(), "lightColor"), this.red, this.green, this.blue);
+		glUniform1f(glGetUniformLocation(shade.getShade(), "lightType"), this.type);
+		glUniform1f(glGetUniformLocation(shade.getShade(), "lightCenter"), this.hasLightSpot);
+		glUniform1f(glGetUniformLocation(shade.getShade(), "lightFacing"), this.facing);
+		glUniform1f(glGetUniformLocation(shade.getShade(), "lightSize"), this.size);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 
@@ -140,6 +156,18 @@ public abstract class Light extends Entity {
 
 	public int getY() {
 		return (int) this.location.y;
+	}
+
+	public float getType() {
+		return this.type;
+	}
+
+	public float getFacing() {
+		return this.facing;
+	}
+
+	public float getSize() {
+		return this.size;
 	}
 
 }

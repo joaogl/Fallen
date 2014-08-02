@@ -2,7 +2,7 @@ package net.joaolourenco.lightdemo.world.tile;
 
 import java.util.Random;
 
-import net.joaolourenco.lightdemo.entity.light.FireLight;
+import net.joaolourenco.lightdemo.entity.light.specific.FireLight;
 import net.joaolourenco.lightdemo.graphics.Texture;
 import net.joaolourenco.lightdemo.world.World;
 

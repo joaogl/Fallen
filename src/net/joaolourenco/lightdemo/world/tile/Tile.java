@@ -9,7 +9,6 @@ import net.joaolourenco.lightdemo.graphics.Buffer;
 import net.joaolourenco.lightdemo.graphics.Shader;
 import net.joaolourenco.lightdemo.world.World;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -21,7 +20,7 @@ public abstract class Tile {
 	protected boolean collidable = true, lightCollidable = true;
 	protected int width, height, x = 9999999, y = 9999999;
 	protected int tex;
-	public Shader shade = new Shader("res/shaders/lightBlocker.frag", "res/shaders/entity.vert");
+	public Shader shade = new Shader("res/shaders/blockLightBlocker.frag", "res/shaders/entity.vert");
 
 	public Tile(int width, int height, int tex) {
 		this.width = width;
@@ -36,9 +35,9 @@ public abstract class Tile {
 	}
 
 	public void update() {
-		if (Keyboard.isKeyDown(Keyboard.KEY_R)) shade.recompile();
-		if (this.lightCollidable && !shade.getFragPath().contains("lightBlocker")) shade = new Shader("res/shaders/lightBlocker.frag", "res/shaders/entity.vert");
-		else if (!this.lightCollidable && !shade.getFragPath().contains("lightMix")) shade = new Shader("res/shaders/lightMix.frag", "res/shaders/entity.vert");
+		/*
+		 * if (this.lightCollidable && !shade.getFragPath().contains("lightBlocker")) shade = new Shader("res/shaders/lightBlocker.frag", "res/shaders/entity.vert"); else if (!this.lightCollidable && !shade.getFragPath().contains("lightMix")) shade = new Shader("res/shaders/lightMix.frag", "res/shaders/entity.vert");
+		 */
 	}
 
 	public void render(int x, int y, World w, ArrayList<Entity> ent) {
@@ -48,6 +47,9 @@ public abstract class Tile {
 		float[] colors = new float[ent.size() * 3];
 		float[] intensities = new float[ent.size()];
 		float[] inUse = new float[50];
+		float[] type = new float[50];
+		float[] size = new float[50];
+		float[] facing = new float[50];
 
 		for (int i = 0; i < ent.size() * 2; i += 2) {
 			float xx = ent.get(i >> 1).getX() - w.getXOffset();
@@ -55,8 +57,6 @@ public abstract class Tile {
 
 			positions[i] = xx;
 			positions[i + 1] = yy;
-
-			System.out.println("Light: " + i + " X: " + xx + " Y: " + yy + " Light:" + w.DAY_LIGHT);
 		}
 
 		for (int i = 0; i < ent.size(); i++) {
@@ -74,12 +74,27 @@ public abstract class Tile {
 			colors[i + 2] = ((Light) ent.get(i / 3)).blue;
 		}
 
+		for (int i = 0; i < ent.size(); i++) {
+			if (ent.get(i) != null) {
+				type[i] = ((Light) ent.get(i)).getType();
+				size[i] = ((Light) ent.get(i)).getSize();
+				facing[i] = ((Light) ent.get(i)).getFacing();
+			} else {
+				size[i] = 0;
+				type[i] = 0;
+				facing[i] = 0;
+			}
+		}
+
 		glUniform1f(glGetUniformLocation(shade.getShade(), "dayLight"), w.DAY_LIGHT);
 
 		glUniform2(glGetUniformLocation(shade.getShade(), "lightPosition"), Buffer.createFloatBuffer(positions));
 		glUniform3(glGetUniformLocation(shade.getShade(), "lightColor"), Buffer.createFloatBuffer(colors));
 		glUniform1(glGetUniformLocation(shade.getShade(), "lightIntensity"), Buffer.createFloatBuffer(intensities));
 		glUniform1(glGetUniformLocation(shade.getShade(), "lightInUse"), Buffer.createFloatBuffer(inUse));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightType"), Buffer.createFloatBuffer(type));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightSize"), Buffer.createFloatBuffer(size));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightFacing"), Buffer.createFloatBuffer(facing));
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);

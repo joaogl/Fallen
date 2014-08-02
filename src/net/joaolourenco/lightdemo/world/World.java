@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import net.joaolourenco.lightdemo.Main;
 import net.joaolourenco.lightdemo.entity.Entity;
 import net.joaolourenco.lightdemo.entity.light.Light;
-import net.joaolourenco.lightdemo.entity.light.RadialLight;
+import net.joaolourenco.lightdemo.entity.light.PointLight;
+import net.joaolourenco.lightdemo.entity.light.SpotLight;
 import net.joaolourenco.lightdemo.entity.mob.Block;
 import net.joaolourenco.lightdemo.entity.mob.Player;
 import net.joaolourenco.lightdemo.graphics.Texture;
-import net.joaolourenco.lightdemo.world.tile.FireTile;
 import net.joaolourenco.lightdemo.world.tile.SolidTile;
 import net.joaolourenco.lightdemo.world.tile.Tile;
 
@@ -37,10 +37,15 @@ public class World {
 		int blockCount = 5 + (int) (Math.random() * 1);
 		int entitiesCount = 5 + (int) (Math.random() * 1);
 
-		Vector2f location = new Vector2f((6 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2, (5 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2);
-		RadialLight l = new RadialLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
+		Vector2f location = new Vector2f((3 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2, (0 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2);
+		SpotLight l = new SpotLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l.init(this);
 		this.entities.add(l);
+
+		location = new Vector2f((0 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2, (3 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2);
+		PointLight l2 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
+		l2.init(this);
+		this.entities.add(l2);
 
 		for (int i = 1; i <= blockCount; i++) {
 			int x = (int) (Math.random() * (Main.WIDTH - Main.TILE_SIZE));
@@ -69,7 +74,7 @@ public class World {
 		setTile(8, 8, new SolidTile(Main.TILE_SIZE, Texture.Grass));
 		setTile(9, 9, new SolidTile(Main.TILE_SIZE, Texture.Dirt));
 
-		setTile(0, 2, new FireTile(Main.TILE_SIZE, Texture.Fire[0], this));
+		// setTile(0, 2, new FireTile(Main.TILE_SIZE, Texture.Fire[0], this));
 
 		player = new Player();
 		player.init(this);
@@ -116,8 +121,8 @@ public class World {
 			if (e != null && getDistance(e, player) < 800) {
 				if (e instanceof Light) {
 					((Light) e).renderShadows(entities, worldTiles);
-					e.render();
-				} else e.render();
+					((Light) e).render();
+				} else e.render(getNearByLights(e.getX(), e.getY()));
 			}
 		}
 		glTranslatef(this.xOffset, this.yOffset, 0f);

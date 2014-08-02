@@ -1,16 +1,19 @@
 package net.joaolourenco.lightdemo.entity;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import net.joaolourenco.lightdemo.Main;
+import net.joaolourenco.lightdemo.entity.light.Light;
+import net.joaolourenco.lightdemo.graphics.Buffer;
+import net.joaolourenco.lightdemo.graphics.Shader;
+import net.joaolourenco.lightdemo.world.World;
 
 import org.lwjgl.util.vector.Vector2f;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
-
-import net.joaolourenco.lightdemo.Main;
-import net.joaolourenco.lightdemo.graphics.Shader;
-import net.joaolourenco.lightdemo.world.World;
 
 public abstract class Entity {
 
@@ -25,16 +28,68 @@ public abstract class Entity {
 	protected boolean inBed = false;
 	protected Random random = new Random();
 	protected boolean collidable = true, lightCollidable = true;
-	public Shader shade = new Shader("res/shaders/entity.frag", "res/shaders/entity.vert");
+	public Shader shade = new Shader("res/shaders/blockLightBlocker.frag", "res/shaders/entity.vert");
 
 	public abstract void update();
 
 	public abstract void tick();
 
-	public void render() {
+	public void render(ArrayList<Entity> ent) {
 		shade.bind();
 
+		float[] positions = new float[ent.size() * 2];
+		float[] colors = new float[ent.size() * 3];
+		float[] intensities = new float[ent.size()];
+		float[] inUse = new float[50];
+		float[] type = new float[50];
+		float[] size = new float[50];
+		float[] facing = new float[50];
+
+		for (int i = 0; i < ent.size() * 2; i += 2) {
+			float xx = ent.get(i >> 1).getX() - this.world.getXOffset();
+			float yy = Main.HEIGHT - (ent.get(i >> 1).getY() - this.world.getYOffset());
+
+			positions[i] = xx;
+			positions[i + 1] = yy;
+		}
+
+		for (int i = 0; i < ent.size(); i++) {
+			intensities[i] = ((Light) ent.get(i)).intensity;
+		}
+
+		for (int i = 0; i < 50; i++) {
+			if (i < ent.size() && ent.get(i) != null) inUse[i] = 1;
+			else inUse[i] = 0;
+		}
+
+		for (int i = 0; i < ent.size() * 3; i += 3) {
+			colors[i] = ((Light) ent.get(i / 3)).red;
+			colors[i + 1] = ((Light) ent.get(i / 3)).green;
+			colors[i + 2] = ((Light) ent.get(i / 3)).blue;
+		}
+
+		for (int i = 0; i < ent.size(); i++) {
+			if (ent.get(i) != null) {
+				type[i] = ((Light) ent.get(i)).getType();
+				size[i] = ((Light) ent.get(i)).getSize();
+				facing[i] = ((Light) ent.get(i)).getFacing();
+			} else {
+				size[i] = 0;
+				type[i] = 0;
+				facing[i] = 0;
+			}
+		}
+
 		glUniform1f(glGetUniformLocation(shade.getShade(), "dayLight"), this.world.DAY_LIGHT);
+
+		glUniform2(glGetUniformLocation(shade.getShade(), "lightPosition"), Buffer.createFloatBuffer(positions));
+		glUniform3(glGetUniformLocation(shade.getShade(), "lightColor"), Buffer.createFloatBuffer(colors));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightIntensity"), Buffer.createFloatBuffer(intensities));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightInUse"), Buffer.createFloatBuffer(inUse));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightType"), Buffer.createFloatBuffer(type));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightSize"), Buffer.createFloatBuffer(size));
+		glUniform1(glGetUniformLocation(shade.getShade(), "lightFacing"), Buffer.createFloatBuffer(facing));
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 

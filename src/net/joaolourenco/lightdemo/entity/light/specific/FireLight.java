@@ -1,18 +1,18 @@
-package net.joaolourenco.lightdemo.entity.light;
+package net.joaolourenco.lightdemo.entity.light.specific;
 
 import java.util.Random;
 
-import net.joaolourenco.lightdemo.graphics.Shader;
+import net.joaolourenco.lightdemo.entity.light.PointLight;
 
 import org.lwjgl.util.vector.Vector2f;
 
-public class FireLight extends Light {
+public class FireLight extends PointLight {
 
 	int time = 0;
 
 	public FireLight(Vector2f location, float red, float green, float blue) {
 		super(location, red, green, blue);
-		this.shade = new Shader("res/shaders/lightNoCenter.frag");
+		this.hasLightSpot = 0;
 	}
 
 	public void update() {

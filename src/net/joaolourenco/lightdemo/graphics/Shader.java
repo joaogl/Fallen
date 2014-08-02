@@ -80,6 +80,7 @@ public class Shader {
 	}
 
 	public void recompile() {
+		glDeleteProgram(this.shader);
 		String frag = loadAsString(this.fragmentPath);
 		if (this.vertexPath != null) {
 			String vert = loadAsString(this.vertexPath);
