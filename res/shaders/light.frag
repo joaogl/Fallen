@@ -16,25 +16,27 @@ void main() {
 			distance = 30;				
 			attenuation = lightInt / distance;
 			color = vec4(attenuation, attenuation, attenuation, pow(attenuation, 3) * 10) * vec4(lightColor * lightInt, 1);		
-		} else {		
+		} else {
 			attenuation = lightInt / distance;
 			color = vec4(attenuation, attenuation, attenuation, pow(attenuation, 3) * 10) * vec4(lightColor * lightInt, 1);		
 		}
-	} else if (lightType == 2) {
-	
+	} else if (lightType == 2) {	
 		vec2 p1 = vec2((cos(lightFacing) * 5) + lightLocation.x, (sin(lightFacing) * 5) + lightLocation.y);
 		vec2 p2 = vec2((cos(lightFacing) * 5) - lightLocation.x, (sin(lightFacing) * 5) - lightLocation.y);
-	
-	
-		float h = distance;
-		float x = lightLocation.x - gl_FragCoord.x;
+		vec2 pm = vec2(lightLocation.x + (cos(45) * 1000), lightLocation.y + (cos(45) * 1000));
+		vec2 p3 = vec2((cos(lightFacing) * 5) + pm.x, (sin(lightFacing) * 5) + pm.y);
+		vec2 p4 = vec2((cos(lightFacing) * 5) - pm.x, (sin(lightFacing) * 5) - pm.y);
 		
-		float angle = degrees(acos(x / h));
-		if (angle >= 0 && angle <= 90) {
+		float a1 = pow(length(p1 - p2) * length(p1 - gl_FragCoord.xy), -2);
+		float a2 = pow(length(p1 - p3) * length(p3 - gl_FragCoord.xy), -2);
+		float a3 = pow(length(p3 - p4) * length(p4 - gl_FragCoord.xy), -2);
+		float a4 = pow(length(p4 - p2) * length(p2 - gl_FragCoord.xy), -2);
+		
+		float a = length(p1 - p2) * length(p1 - p3);
+	
+		if (a = a1 + a2 + a3 + a4) {
 			color = vec4(attenuation, attenuation, attenuation, pow(attenuation, 3) * 10) * vec4(lightColor * lightInt, 1);
-		}
-		
-		
+		}		
 	}  else if (lightType == 3) {	
 		float angle = degrees(acos((lightLocation.x - gl_FragCoord.x) / distance));		
 		if (lightLocation.y < gl_FragCoord.y) angle = 360 - angle;

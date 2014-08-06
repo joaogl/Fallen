@@ -1,10 +1,10 @@
-package net.joaolourenco.lightdemo.entity.mob;
-
-import net.joaolourenco.lightdemo.Main;
-import net.joaolourenco.lightdemo.entity.Entity;
-import net.joaolourenco.lightdemo.graphics.Texture;
+package com.webs.faragames.fallen.entity.mob;
 
 import org.lwjgl.input.Keyboard;
+
+import com.webs.faragames.fallen.entity.Entity;
+import com.webs.faragames.fallen.graphics.Texture;
+import com.webs.faragames.fallen.settings.GeneralSettings;
 
 public class Player extends Entity {
 
@@ -15,6 +15,9 @@ public class Player extends Entity {
 		this.texture = Texture.Player;
 	}
 
+	/*
+	 * TODO: REMOVE SHADER RECOMPILE
+	 */
 	@Override
 	public void update() {
 		float xa = 0;
@@ -34,7 +37,8 @@ public class Player extends Entity {
 		this.x += xa;
 		this.y += ya;
 
-		this.world.setOffset((int) ((this.x + (SIZE / 2)) - Main.WIDTH / 2), (int) (this.y + (SIZE / 2) - Main.HEIGHT / 2));
+		this.world.setOffset((int) ((this.x + (SIZE / 2)) - GeneralSettings.WIDTH / 2), (int) (this.y + (SIZE / 2) - GeneralSettings.HEIGHT / 2));
+		shade.recompile();
 	}
 
 	public void tick() {

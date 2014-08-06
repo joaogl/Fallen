@@ -1,10 +1,10 @@
-package net.joaolourenco.lightdemo.entity.mob;
+package com.webs.faragames.fallen.entity.mob;
 
 import java.util.Random;
 
-import net.joaolourenco.lightdemo.Main;
-import net.joaolourenco.lightdemo.entity.Entity;
-import net.joaolourenco.lightdemo.graphics.Texture;
+import com.webs.faragames.fallen.entity.Entity;
+import com.webs.faragames.fallen.graphics.Texture;
+import com.webs.faragames.fallen.settings.GeneralSettings;
 
 public class Block extends Entity {
 
@@ -32,8 +32,8 @@ public class Block extends Entity {
 				if (ydir) this.y += tomove;
 				else this.y -= tomove;
 			}
-			if (this.x >= (this.world.getWidth() << Main.TILE_SIZE_MASK) || this.x < 0) this.xdir = !this.xdir;
-			if (this.y >= (this.world.getHeight() << Main.TILE_SIZE_MASK) || this.y < 0) this.ydir = !this.ydir;
+			if (this.x >= (this.world.getWidth() << GeneralSettings.TILE_SIZE_MASK) || this.x < 0) this.xdir = !this.xdir;
+			if (this.y >= (this.world.getHeight() << GeneralSettings.TILE_SIZE_MASK) || this.y < 0) this.ydir = !this.ydir;
 		}
 	}
 

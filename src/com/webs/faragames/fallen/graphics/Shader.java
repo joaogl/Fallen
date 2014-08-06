@@ -1,4 +1,4 @@
-package net.joaolourenco.lightdemo.graphics;
+package com.webs.faragames.fallen.graphics;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,6 +13,8 @@ public class Shader {
 	private int shader;
 	private String fragmentPath;
 	private String vertexPath;
+	private int fragmentID = 999999;
+	private int vertexID = 999999;
 
 	public Shader(String fragPath) {
 		String frag = loadAsString(fragPath);
@@ -54,6 +56,7 @@ public class Shader {
 		if (glGetShaderi(fragmentShader, GL_COMPILE_STATUS) == GL_FALSE) {
 			System.err.println("Fragment shader not compiled!");
 		}
+		this.fragmentID = fragmentShader;
 		glAttachShader(this.shader, fragmentShader);
 		glLinkProgram(this.shader);
 		glValidateProgram(this.shader);
@@ -73,6 +76,8 @@ public class Shader {
 		if (glGetShaderi(vertexShader, GL_COMPILE_STATUS) == GL_FALSE) {
 			System.err.println("Vertex shader not compiled!");
 		}
+		this.fragmentID = fragmentShader;
+		this.vertexID = vertexShader;
 		glAttachShader(this.shader, fragmentShader);
 		glAttachShader(this.shader, vertexShader);
 		glLinkProgram(this.shader);
@@ -81,6 +86,8 @@ public class Shader {
 
 	public void recompile() {
 		glDeleteProgram(this.shader);
+		if (this.fragmentID != 999999) glDeleteShader(this.fragmentID);
+		if (this.vertexID != 999999) glDeleteShader(this.vertexID);
 		String frag = loadAsString(this.fragmentPath);
 		if (this.vertexPath != null) {
 			String vert = loadAsString(this.vertexPath);

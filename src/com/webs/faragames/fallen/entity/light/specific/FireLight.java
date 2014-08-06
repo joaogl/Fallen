@@ -1,10 +1,10 @@
-package net.joaolourenco.lightdemo.entity.light.specific;
+package com.webs.faragames.fallen.entity.light.specific;
 
 import java.util.Random;
 
-import net.joaolourenco.lightdemo.entity.light.PointLight;
-
 import org.lwjgl.util.vector.Vector2f;
+
+import com.webs.faragames.fallen.entity.light.PointLight;
 
 public class FireLight extends PointLight {
 

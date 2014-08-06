@@ -1,19 +1,20 @@
-package net.joaolourenco.lightdemo.world;
+package com.webs.faragames.fallen.world;
 
 import java.util.ArrayList;
 
-import net.joaolourenco.lightdemo.Main;
-import net.joaolourenco.lightdemo.entity.Entity;
-import net.joaolourenco.lightdemo.entity.light.Light;
-import net.joaolourenco.lightdemo.entity.light.PointLight;
-import net.joaolourenco.lightdemo.entity.light.SpotLight;
-import net.joaolourenco.lightdemo.entity.mob.Block;
-import net.joaolourenco.lightdemo.entity.mob.Player;
-import net.joaolourenco.lightdemo.graphics.Texture;
-import net.joaolourenco.lightdemo.world.tile.SolidTile;
-import net.joaolourenco.lightdemo.world.tile.Tile;
-
 import org.lwjgl.util.vector.Vector2f;
+
+import com.webs.faragames.fallen.entity.Entity;
+import com.webs.faragames.fallen.entity.light.DirectionalLight;
+import com.webs.faragames.fallen.entity.light.Light;
+import com.webs.faragames.fallen.entity.light.PointLight;
+import com.webs.faragames.fallen.entity.light.SpotLight;
+import com.webs.faragames.fallen.entity.mob.Block;
+import com.webs.faragames.fallen.entity.mob.Player;
+import com.webs.faragames.fallen.graphics.Texture;
+import com.webs.faragames.fallen.settings.GeneralSettings;
+import com.webs.faragames.fallen.world.tile.SolidTile;
+import com.webs.faragames.fallen.world.tile.Tile;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -37,44 +38,49 @@ public class World {
 		int blockCount = 5 + (int) (Math.random() * 1);
 		int entitiesCount = 5 + (int) (Math.random() * 1);
 
-		Vector2f location = new Vector2f((3 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2, (0 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2);
+		Vector2f location = new Vector2f((3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (0 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
 		SpotLight l = new SpotLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l.init(this);
 		this.entities.add(l);
 
-		location = new Vector2f((0 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2, (3 << Main.TILE_SIZE_MASK) + Main.TILE_SIZE / 2);
+		location = new Vector2f((0 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
 		PointLight l2 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l2.init(this);
 		this.entities.add(l2);
 
+		location = new Vector2f((6 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (4 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
+		DirectionalLight l3 = new DirectionalLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
+		l3.init(this);
+		this.entities.add(l3);
+
 		for (int i = 1; i <= blockCount; i++) {
-			int x = (int) (Math.random() * (Main.WIDTH - Main.TILE_SIZE));
-			int y = (int) (Math.random() * (Main.HEIGHT - Main.TILE_SIZE));
-			Block b = new Block(x, y, Main.TILE_SIZE, Main.TILE_SIZE, false);
+			int x = (int) (Math.random() * (GeneralSettings.WIDTH - GeneralSettings.TILE_SIZE));
+			int y = (int) (Math.random() * (GeneralSettings.HEIGHT - GeneralSettings.TILE_SIZE));
+			Block b = new Block(x, y, GeneralSettings.TILE_SIZE, GeneralSettings.TILE_SIZE, false);
 			b.init(this);
 			this.entities.add(b);
 		}
 
 		for (int i = 1; i <= entitiesCount; i++) {
-			int x = (int) (Math.random() * (Main.WIDTH - Main.TILE_SIZE));
-			int y = (int) (Math.random() * (Main.HEIGHT - Main.TILE_SIZE));
-			Block b = new Block(x, y, Main.TILE_SIZE, Main.TILE_SIZE, true);
+			int x = (int) (Math.random() * (GeneralSettings.WIDTH - GeneralSettings.TILE_SIZE));
+			int y = (int) (Math.random() * (GeneralSettings.HEIGHT - GeneralSettings.TILE_SIZE));
+			Block b = new Block(x, y, GeneralSettings.TILE_SIZE, GeneralSettings.TILE_SIZE, true);
 			b.init(this);
 			this.entities.add(b);
 		}
 
-		setTile(0, 0, new SolidTile(Main.TILE_SIZE, Texture.Grass));
-		setTile(1, 1, new SolidTile(Main.TILE_SIZE, Texture.Dirt));
-		setTile(2, 2, new SolidTile(Main.TILE_SIZE, Texture.Grass));
-		setTile(3, 3, new SolidTile(Main.TILE_SIZE, Texture.Dirt));
-		setTile(4, 4, new SolidTile(Main.TILE_SIZE, Texture.Grass));
-		setTile(5, 5, new SolidTile(Main.TILE_SIZE, Texture.Dirt));
-		setTile(6, 6, new SolidTile(Main.TILE_SIZE, Texture.Grass));
-		setTile(7, 7, new SolidTile(Main.TILE_SIZE, Texture.Dirt));
-		setTile(8, 8, new SolidTile(Main.TILE_SIZE, Texture.Grass));
-		setTile(9, 9, new SolidTile(Main.TILE_SIZE, Texture.Dirt));
+		setTile(0, 0, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Grass));
+		setTile(1, 1, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
+		setTile(2, 2, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Grass));
+		setTile(3, 3, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
+		setTile(4, 4, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Grass));
+		setTile(5, 5, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
+		setTile(6, 6, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Grass));
+		setTile(7, 7, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
+		setTile(8, 8, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Grass));
+		setTile(9, 9, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
 
-		// setTile(0, 2, new FireTile(Main.TILE_SIZE, Texture.Fire[0], this));
+		// setTile(0, 2, new FireTile(GeneralSettings.TILE_SIZE, Texture.Fire[0], this));
 
 		player = new Player();
 		player.init(this);
@@ -106,14 +112,14 @@ public class World {
 		glTranslatef(-this.xOffset, -this.yOffset, 0f);
 		glColor3f(1f, 1f, 1f);
 
-		int x0 = this.xOffset >> Main.TILE_SIZE_MASK;
-		int x1 = (this.xOffset >> Main.TILE_SIZE_MASK) + 14;
-		int y0 = this.yOffset >> Main.TILE_SIZE_MASK;
-		int y1 = (this.yOffset >> Main.TILE_SIZE_MASK) + 11;
+		int x0 = this.xOffset >> GeneralSettings.TILE_SIZE_MASK;
+		int x1 = (this.xOffset >> GeneralSettings.TILE_SIZE_MASK) + 14;
+		int y0 = this.yOffset >> GeneralSettings.TILE_SIZE_MASK;
+		int y1 = (this.yOffset >> GeneralSettings.TILE_SIZE_MASK) + 11;
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
 				Tile tile = getTile(x, y);
-				if (tile != null) tile.render(x << Main.TILE_SIZE_MASK, y << Main.TILE_SIZE_MASK, this, getNearByLights(x << Main.TILE_SIZE_MASK, y << Main.TILE_SIZE_MASK));
+				if (tile != null) tile.render(x << GeneralSettings.TILE_SIZE_MASK, y << GeneralSettings.TILE_SIZE_MASK, this, getNearByLights(x << GeneralSettings.TILE_SIZE_MASK, y << GeneralSettings.TILE_SIZE_MASK));
 			}
 		}
 		glColor3f(1f, 1f, 1f);

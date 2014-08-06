@@ -1,4 +1,4 @@
-package net.joaolourenco.lightdemo.world.tile;
+package com.webs.faragames.fallen.world.tile;
 
 public class SolidTile extends Tile {
 

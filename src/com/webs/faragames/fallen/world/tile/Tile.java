@@ -1,40 +1,46 @@
-package net.joaolourenco.lightdemo.entity;
+package com.webs.faragames.fallen.world.tile;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import net.joaolourenco.lightdemo.Main;
-import net.joaolourenco.lightdemo.entity.light.Light;
-import net.joaolourenco.lightdemo.graphics.Buffer;
-import net.joaolourenco.lightdemo.graphics.Shader;
-import net.joaolourenco.lightdemo.world.World;
 
 import org.lwjgl.util.vector.Vector2f;
+
+import com.webs.faragames.fallen.entity.Entity;
+import com.webs.faragames.fallen.entity.light.Light;
+import com.webs.faragames.fallen.graphics.Buffer;
+import com.webs.faragames.fallen.graphics.Shader;
+import com.webs.faragames.fallen.settings.GeneralSettings;
+import com.webs.faragames.fallen.world.World;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
 
-public abstract class Entity {
+public abstract class Tile {
 
-	protected static final float SIZE = Main.TILE_SIZE;
-	protected float x, y, width, height;
-	protected int side;
-	public int dir;
-	protected int texture;
-	protected World world;
-	private boolean removed = false;
-	protected boolean frozen = false;
-	protected boolean inBed = false;
-	protected Random random = new Random();
 	protected boolean collidable = true, lightCollidable = true;
+	protected int width, height, x = 9999999, y = 9999999;
+	protected int tex;
 	public Shader shade = new Shader("res/shaders/blockLightBlocker.frag", "res/shaders/entity.vert");
 
-	public abstract void update();
+	public Tile(int width, int height, int tex) {
+		this.width = width;
+		this.height = height;
+		this.tex = tex;
+	}
 
-	public abstract void tick();
+	public Tile(int size, int tex) {
+		this.width = size;
+		this.height = size;
+		this.tex = tex;
+	}
 
-	public void render(ArrayList<Entity> ent) {
+	public void update() {
+		/*
+		 * if (this.lightCollidable && !shade.getFragPath().contains("lightBlocker")) shade = new Shader("res/shaders/lightBlocker.frag", "res/shaders/entity.vert"); else if (!this.lightCollidable && !shade.getFragPath().contains("lightMix")) shade = new Shader("res/shaders/lightMix.frag", "res/shaders/entity.vert");
+		 */
+	}
+
+	public void render(int x, int y, World w, ArrayList<Entity> ent) {
 		shade.bind();
 
 		float[] positions = new float[ent.size() * 2];
@@ -46,8 +52,8 @@ public abstract class Entity {
 		float[] facing = new float[50];
 
 		for (int i = 0; i < ent.size() * 2; i += 2) {
-			float xx = ent.get(i >> 1).getX() - this.world.getXOffset();
-			float yy = Main.HEIGHT - (ent.get(i >> 1).getY() - this.world.getYOffset());
+			float xx = ent.get(i >> 1).getX() - w.getXOffset();
+			float yy = GeneralSettings.HEIGHT - (ent.get(i >> 1).getY() - w.getYOffset());
 
 			positions[i] = xx;
 			positions[i + 1] = yy;
@@ -80,7 +86,7 @@ public abstract class Entity {
 			}
 		}
 
-		glUniform1f(glGetUniformLocation(shade.getShade(), "dayLight"), this.world.DAY_LIGHT);
+		glUniform1f(glGetUniformLocation(shade.getShade(), "dayLight"), w.DAY_LIGHT);
 
 		glUniform2(glGetUniformLocation(shade.getShade(), "lightPosition"), Buffer.createFloatBuffer(positions));
 		glUniform3(glGetUniformLocation(shade.getShade(), "lightColor"), Buffer.createFloatBuffer(colors));
@@ -93,9 +99,11 @@ public abstract class Entity {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 
+		this.x = x;
+		this.y = y;
 		glTranslatef(x, y, 0);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, this.texture);
+		glBindTexture(GL_TEXTURE_2D, this.tex);
 		glUniform1i(glGetUniformLocation(shade.getShade(), "texture"), 0);
 
 		glBegin(GL_QUADS);
@@ -121,72 +129,6 @@ public abstract class Entity {
 		glClear(GL_STENCIL_BUFFER_BIT);
 	}
 
-	public Vector2f[] getVertices() {
-		return new Vector2f[] { new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
-	}
-
-	public boolean isRemoved() {
-		return removed;
-	}
-
-	public boolean isFrozen() {
-		return frozen;
-	}
-
-	public void freeze() {
-		frozen = true;
-	}
-
-	public void unFreeze() {
-		frozen = false;
-	}
-
-	public void remove() {
-		removed = true;
-	}
-
-	public void init(World world) {
-		this.world = world;
-	}
-
-	public float getSpeed(boolean running) {
-		float speed = 0;
-		if (running) speed = 5f;
-		else speed = 2.5f;
-		return speed;
-	}
-
-	public void getSide(float xa, float ya) {
-		if (xa > 0) this.side = 0;
-		else if (xa < 0) this.side = 1;
-		if (ya > 0) this.side = 2;
-		else if (ya < 0) this.side = 3;
-	}
-
-	public int getX() {
-		return (int) this.x;
-	}
-
-	public int getY() {
-		return (int) this.y;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public boolean inBed() {
-		return this.inBed;
-	}
-
-	public void inBed(boolean a) {
-		this.inBed = a;
-	}
-
 	public boolean isLightCollidable() {
 		return this.lightCollidable;
 	}
@@ -201,6 +143,18 @@ public abstract class Entity {
 
 	public void isCollidable(boolean a) {
 		this.collidable = a;
+	}
+
+	public Vector2f[] getVertices() {
+		return new Vector2f[] { new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
+	}
+
+	public int getX() {
+		return this.x;
+	}
+
+	public int getY() {
+		return this.y;
 	}
 
 }

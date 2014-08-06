@@ -1,4 +1,4 @@
-package net.joaolourenco.lightdemo.entity.light;
+package com.webs.faragames.fallen.entity.light;
 
 import org.lwjgl.util.vector.Vector2f;
 

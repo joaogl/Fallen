@@ -1,12 +1,13 @@
-package net.joaolourenco.lightdemo;
-
-import net.joaolourenco.lightdemo.graphics.Texture;
-import net.joaolourenco.lightdemo.world.World;
+package com.webs.faragames.fallen;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
+
+import com.webs.faragames.fallen.graphics.Texture;
+import com.webs.faragames.fallen.settings.GeneralSettings;
+import com.webs.faragames.fallen.world.World;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -15,10 +16,6 @@ public class Main implements Runnable {
 	private Thread thread;
 	private boolean running = false;
 
-	public final static int WIDTH = 800;
-	public final static int HEIGHT = 600;
-	public final static int TILE_SIZE = 64;
-	public final static int TILE_SIZE_MASK = 6;
 	public static World world;
 
 	public static void main(String[] args) {
@@ -27,15 +24,15 @@ public class Main implements Runnable {
 	}
 
 	public synchronized void start() {
-		thread = new Thread(this, "Demo");
+		thread = new Thread(this, GeneralSettings.fullname);
 		running = true;
 		thread.start();
 	}
 
 	private void init() {
 		try {
-			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
-			Display.setTitle("Demo of 2D lights to Joao Games!");
+			Display.setDisplayMode(new DisplayMode(GeneralSettings.WIDTH, GeneralSettings.HEIGHT));
+			Display.setTitle(GeneralSettings.fullname);
 			Display.create(new PixelFormat(0, 16, 1));
 		} catch (LWJGLException e) {
 			e.printStackTrace();
@@ -46,7 +43,7 @@ public class Main implements Runnable {
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
+		glOrtho(0, GeneralSettings.WIDTH, GeneralSettings.HEIGHT, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 
 		glEnable(GL_TEXTURE_2D);
@@ -84,7 +81,7 @@ public class Main implements Runnable {
 			Display.update();
 			if (System.currentTimeMillis() - lastTimer > 1000) {
 				lastTimer += 1000;
-				Display.setTitle("Demo of 2D lights to Joao Games! FPS: " + frames + " UPS: " + updates + " Average: " + avg);
+				Display.setTitle(GeneralSettings.fullname + " FPS: " + frames + " UPS: " + updates + " Average: " + avg);
 				world.tick();
 				sum += frames;
 				checking++;

@@ -1,12 +1,12 @@
-package net.joaolourenco.lightdemo.world.tile;
+package com.webs.faragames.fallen.world.tile;
 
 import java.util.Random;
 
-import net.joaolourenco.lightdemo.entity.light.specific.FireLight;
-import net.joaolourenco.lightdemo.graphics.Texture;
-import net.joaolourenco.lightdemo.world.World;
-
 import org.lwjgl.util.vector.Vector2f;
+
+import com.webs.faragames.fallen.entity.light.specific.FireLight;
+import com.webs.faragames.fallen.graphics.Texture;
+import com.webs.faragames.fallen.world.World;
 
 public class FireTile extends Tile {
 

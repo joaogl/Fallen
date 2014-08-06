@@ -1,4 +1,4 @@
-package net.joaolourenco.lightdemo.graphics;
+package com.webs.faragames.fallen.graphics;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;

@@ -1,14 +1,14 @@
-package net.joaolourenco.lightdemo.entity.light;
+package com.webs.faragames.fallen.entity.light;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import net.joaolourenco.lightdemo.Main;
-import net.joaolourenco.lightdemo.entity.Entity;
-import net.joaolourenco.lightdemo.graphics.Shader;
-import net.joaolourenco.lightdemo.world.tile.Tile;
-
 import org.lwjgl.util.vector.Vector2f;
+
+import com.webs.faragames.fallen.entity.Entity;
+import com.webs.faragames.fallen.graphics.Shader;
+import com.webs.faragames.fallen.settings.GeneralSettings;
+import com.webs.faragames.fallen.world.tile.Tile;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -44,6 +44,9 @@ public abstract class Light extends Entity {
 		this.hasLightSpot = 1;
 	}
 
+	/*
+	 * TODO: REMOVE SHADER RECOMPILE
+	 */
 	public void update() {
 		if (this.facing <= 360) this.facing++;
 		else this.facing = 0;
@@ -59,7 +62,7 @@ public abstract class Light extends Entity {
 		float xx = this.location.getX() - this.world.getXOffset();
 		float yy = this.location.getY() - this.world.getYOffset();
 		glUniform1f(glGetUniformLocation(shade.getShade(), "lightInt"), this.intensity);
-		glUniform2f(glGetUniformLocation(shade.getShade(), "lightLocation"), xx, Main.HEIGHT - yy);
+		glUniform2f(glGetUniformLocation(shade.getShade(), "lightLocation"), xx, GeneralSettings.HEIGHT - yy);
 		glUniform3f(glGetUniformLocation(shade.getShade(), "lightColor"), this.red, this.green, this.blue);
 		glUniform1f(glGetUniformLocation(shade.getShade(), "lightType"), this.type);
 		glUniform1f(glGetUniformLocation(shade.getShade(), "lightCenter"), this.hasLightSpot);
@@ -71,9 +74,9 @@ public abstract class Light extends Entity {
 		glBegin(GL_QUADS);
 		{
 			glVertex2f(0 + this.world.getXOffset(), 0 + this.world.getYOffset());
-			glVertex2f(0 + this.world.getXOffset(), Main.HEIGHT + this.world.getYOffset());
-			glVertex2f(Main.WIDTH + this.world.getXOffset(), Main.HEIGHT + this.world.getYOffset());
-			glVertex2f(Main.WIDTH + this.world.getXOffset(), 0 + this.world.getYOffset());
+			glVertex2f(0 + this.world.getXOffset(), GeneralSettings.HEIGHT + this.world.getYOffset());
+			glVertex2f(GeneralSettings.WIDTH + this.world.getXOffset(), GeneralSettings.HEIGHT + this.world.getYOffset());
+			glVertex2f(GeneralSettings.WIDTH + this.world.getXOffset(), 0 + this.world.getYOffset());
 		}
 		glEnd();
 
