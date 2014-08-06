@@ -9,8 +9,7 @@ import com.webs.faragames.fallen.settings.GeneralSettings;
 public class Player extends Entity {
 
 	public Player() {
-		this.width = 64;
-		this.height = 64;
+		super(50, 50, 64, 64);
 		this.isLightCollidable(true);
 		this.texture = Texture.Player;
 	}
@@ -29,12 +28,12 @@ public class Player extends Entity {
 		if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT)) xa -= speed;
 		else if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) xa += speed;
 
-		getSide(xa, ya);
+		//getSide(xa, ya);
 
 		this.x += xa;
 		this.y += ya;
 
-		this.world.setOffset((int) ((this.x + (SIZE / 2)) - GeneralSettings.WIDTH / 2), (int) (this.y + (SIZE / 2) - GeneralSettings.HEIGHT / 2));
+		this.world.setOffset((int) ((this.x + (this.width / 2)) - GeneralSettings.WIDTH / 2), (int) (this.y + (this.height / 2) - GeneralSettings.HEIGHT / 2));
 	}
 
 	public void tick() {

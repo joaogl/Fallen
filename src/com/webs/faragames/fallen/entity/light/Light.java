@@ -25,6 +25,7 @@ public abstract class Light extends Entity {
 	public Shader shade = new Shader("res/shaders/light.frag");
 
 	public Light(Vector2f location, float red, float green, float blue) {
+		super((int) location.x, (int) location.y, 5, 5);
 		this.location = location;
 		this.red = red;
 		this.green = green;
@@ -35,6 +36,7 @@ public abstract class Light extends Entity {
 	}
 
 	public Light(Vector2f location, float red, float green, float blue, float inte) {
+		super((int) location.x, (int) location.y, 5, 5);
 		this.location = location;
 		this.red = red;
 		this.green = green;

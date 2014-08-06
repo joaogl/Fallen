@@ -12,6 +12,7 @@ public class Block extends Entity {
 	private boolean movable;
 
 	public Block(int x, int y, int width, int height, boolean movable) {
+		super(x, y, width, height);
 		this.x = x;
 		this.y = y;
 		this.width = width;

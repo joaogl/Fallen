@@ -24,7 +24,7 @@ import static org.lwjgl.opengl.GL20.*;
 public abstract class Tile {
 
 	/**
-	 * Is the block collidable? Will the light end on the block or keep spreading?
+	 * Is the tile collidable? Will the light end on the tile or keep spreading?
 	 */
 	protected boolean collidable = true, lightCollidable = true;
 	/**
@@ -71,7 +71,7 @@ public abstract class Tile {
 	}
 
 	/**
-	 * Update function, called by the World class 60 times per second.
+	 * Update Method, called by the World class 60 times per second.
 	 */
 	public void update() {
 		// If the tile is using a shader that doesnt block the light and the ligthCollidable is true, change it, and vice versa.

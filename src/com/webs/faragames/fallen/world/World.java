@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.webs.faragames.fallen.entity.Entity;
 import com.webs.faragames.fallen.entity.light.Light;
 import com.webs.faragames.fallen.entity.mob.Player;
+import com.webs.faragames.fallen.graphics.Texture;
 import com.webs.faragames.fallen.settings.GeneralSettings;
+import com.webs.faragames.fallen.world.tile.SolidTile;
 import com.webs.faragames.fallen.world.tile.Tile;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -27,6 +29,7 @@ public class World {
 		this.height = height;
 		this.worldTiles = new Tile[this.width * this.height];
 
+		setTile(1, 1, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
 		// Add a normal Tile: 
 		//				setTile(9, 9, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
 		// Add a fire Tile: 
@@ -111,6 +114,9 @@ public class World {
 	}
 
 	public void update() {
+		for (Entity e : this.entities)
+			if (e != null && e.isRemoved()) this.entities.remove(e);
+
 		for (Entity e : this.entities)
 			if (e != null) e.update();
 
