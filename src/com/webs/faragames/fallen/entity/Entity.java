@@ -50,7 +50,7 @@ public abstract class Entity {
 	/**
 	 * Shader ID for the entity.
 	 */
-	public Shader shade = new Shader("res/shaders/blockLightBlocker.frag", "res/shaders/entity.vert");
+	public Shader shade = new Shader(GeneralSettings.lightBlockerPath, GeneralSettings.entityVertexPath);
 
 	/**
 	 * Constructor for the Entities.
@@ -88,54 +88,65 @@ public abstract class Entity {
 	 *            : List of entities that emit light.
 	 */
 	public void bindUniforms(ArrayList<Entity> ent) {
+		// Is there 50 Lights or less?
+		int howMany = GeneralSettings.howManyLightsToShader;
+		if (howMany < ent.size()) howMany = ent.size();
 		// Binding the shader program.
 		shade.bind();
 		// Setting up all the variables that will be passed to the shader
-		float[] positions = new float[ent.size() * 2];
-		float[] colors = new float[ent.size() * 3];
-		float[] intensities = new float[ent.size()];
-		float[] inUse = new float[50];
-		float[] type = new float[50];
-		float[] size = new float[50];
-		float[] facing = new float[50];
+		float[] positions = new float[howMany * 2];
+		float[] colors = new float[howMany * 3];
+		float[] intensities = new float[howMany];
+		float[] inUse = new float[howMany];
+		float[] type = new float[howMany];
+		float[] size = new float[howMany];
+		float[] facing = new float[howMany];
 
 		// Putting all the coordinates inside a float array.
-		for (int i = 0; i < ent.size() * 2; i += 2) {
-			float xx = ent.get(i >> 1).getX() - this.world.getXOffset();
-			float yy = GeneralSettings.HEIGHT - (ent.get(i >> 1).getY() - this.world.getYOffset());
+		for (int i = 0; i < howMany * 2; i += 2) {
+			if (ent.size() > howMany) {
+				float xx = ent.get(i >> 1).getX() - this.world.getXOffset();
+				float yy = GeneralSettings.HEIGHT - (ent.get(i >> 1).getY() - this.world.getYOffset());
 
-			positions[i] = xx;
-			positions[i + 1] = yy;
+				positions[i] = xx;
+				positions[i + 1] = yy;
+			}
 		}
 
 		// Putting all the light intensities inside a float array.
-		for (int i = 0; i < ent.size(); i++) {
-			intensities[i] = ((Light) ent.get(i)).intensity;
+		for (int i = 0; i < howMany; i++) {
+			if (ent.size() > howMany) intensities[i] = ((Light) ent.get(i)).intensity;
 		}
 
 		// Putting the info's about the light state (on or off) inside a float array.
-		for (int i = 0; i < 50; i++) {
-			if (i < ent.size() && ent.get(i) != null) inUse[i] = 1;
-			else inUse[i] = 0;
+		for (int i = 0; i < howMany; i++) {
+			if (ent.size() > howMany) {
+				if (i < ent.size() && ent.get(i) != null) inUse[i] = 1;
+				else inUse[i] = 0;
+			}
 		}
 
 		// Putting all the colors inside a float array.
-		for (int i = 0; i < ent.size() * 3; i += 3) {
-			colors[i] = ((Light) ent.get(i / 3)).red;
-			colors[i + 1] = ((Light) ent.get(i / 3)).green;
-			colors[i + 2] = ((Light) ent.get(i / 3)).blue;
+		for (int i = 0; i < howMany * 3; i += 3) {
+			if (ent.size() > howMany) {
+				colors[i] = ((Light) ent.get(i / 3)).red;
+				colors[i + 1] = ((Light) ent.get(i / 3)).green;
+				colors[i + 2] = ((Light) ent.get(i / 3)).blue;
+			}
 		}
 
 		// Putting the size, type and facing of the light inside a float array.
-		for (int i = 0; i < ent.size(); i++) {
-			if (ent.get(i) != null) {
-				type[i] = ((Light) ent.get(i)).getType();
-				size[i] = ((Light) ent.get(i)).getSize();
-				facing[i] = ((Light) ent.get(i)).getFacing();
-			} else {
-				size[i] = 0;
-				type[i] = 0;
-				facing[i] = 0;
+		for (int i = 0; i < howMany; i++) {
+			if (ent.size() > howMany) {
+				if (ent.get(i) != null) {
+					type[i] = ((Light) ent.get(i)).getType();
+					size[i] = ((Light) ent.get(i)).getSize();
+					facing[i] = ((Light) ent.get(i)).getFacing();
+				} else {
+					size[i] = 0;
+					type[i] = 0;
+					facing[i] = 0;
+				}
 			}
 		}
 
@@ -245,8 +256,8 @@ public abstract class Entity {
 	 */
 	public float getSpeed(boolean running) {
 		float speed = 0;
-		if (running) speed = 5f;
-		else speed = 2.5f;
+		if (running) speed = GeneralSettings.defaultEntityRunning;
+		else speed = GeneralSettings.defaultEntityWalking;
 		return speed;
 	}
 

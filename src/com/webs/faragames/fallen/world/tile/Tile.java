@@ -38,7 +38,7 @@ public abstract class Tile {
 	/**
 	 * Shader ID for the tiles.
 	 */
-	public Shader shade = new Shader("res/shaders/blockLightBlocker.frag", "res/shaders/entity.vert");
+	public Shader shade = new Shader(GeneralSettings.lightBlockerPath, GeneralSettings.entityVertexPath);
 
 	/**
 	 * Constructor for tiles with a different with and height.
@@ -75,8 +75,8 @@ public abstract class Tile {
 	 */
 	public void update() {
 		// If the tile is using a shader that doesnt block the light and the ligthCollidable is true, change it, and vice versa.
-		if (this.lightCollidable && !this.shade.getFragPath().equalsIgnoreCase("res/shaders/blockLightBlocker.frag")) this.shade = new Shader("res/shaders/blockSpreadLight.frag");
-		else if (!this.lightCollidable && !this.shade.getFragPath().equalsIgnoreCase("res/shaders/blockSpreadLight.frag")) this.shade = new Shader("res/shaders/blockLightBlocker.frag");
+		if (this.lightCollidable && !this.shade.getFragPath().equalsIgnoreCase(GeneralSettings.lightBlockerPath)) this.shade = new Shader(GeneralSettings.lightSpreaderPath);
+		else if (!this.lightCollidable && !this.shade.getFragPath().equalsIgnoreCase(GeneralSettings.lightSpreaderPath)) this.shade = new Shader(GeneralSettings.lightBlockerPath);
 	}
 
 	/**
@@ -94,10 +94,10 @@ public abstract class Tile {
 		float[] positions = new float[ent.size() * 2];
 		float[] colors = new float[ent.size() * 3];
 		float[] intensities = new float[ent.size()];
-		float[] inUse = new float[50];
-		float[] type = new float[50];
-		float[] size = new float[50];
-		float[] facing = new float[50];
+		float[] inUse = new float[GeneralSettings.howManyLightsToShader];
+		float[] type = new float[GeneralSettings.howManyLightsToShader];
+		float[] size = new float[GeneralSettings.howManyLightsToShader];
+		float[] facing = new float[GeneralSettings.howManyLightsToShader];
 
 		// Putting all the coordinates inside a float array.
 		for (int i = 0; i < ent.size() * 2; i += 2) {
@@ -114,7 +114,7 @@ public abstract class Tile {
 		}
 
 		// Putting the info's about the light state (on or off) inside a float array.
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < ent.size(); i++) {
 			if (i < ent.size() && ent.get(i) != null) inUse[i] = 1;
 			else inUse[i] = 0;
 		}

@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
+import com.webs.faragames.fallen.graphics.Shader;
 import com.webs.faragames.fallen.graphics.Texture;
 import com.webs.faragames.fallen.settings.GeneralSettings;
 import com.webs.faragames.fallen.world.World;
@@ -87,9 +88,9 @@ public class Main implements Runnable {
 	 * This Method is called on the end of the game to clean the memory.
 	 */
 	private void cleanup() {
-		/**
-		 * TODO: Shaders cleanup
-		 */
+		// Cleaning all the Shaders
+		for (Shader shader : GeneralSettings.shaders)
+			if (shader != null) shader.cleanUp();
 		// Destroying the Display.
 		Display.destroy();
 	}

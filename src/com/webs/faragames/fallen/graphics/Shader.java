@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.webs.faragames.fallen.settings.GeneralSettings;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
@@ -44,6 +46,8 @@ public class Shader {
 	 *            : String with the path for the Fragment file.
 	 */
 	public Shader(String fragPath) {
+		// Adding this shader to the public shaders list.
+		GeneralSettings.shaders.add(this);
 		// Load the code to a string
 		String frag = loadAsString(fragPath);
 		this.fragmentPath = fragPath;
@@ -60,6 +64,8 @@ public class Shader {
 	 *            : String with the path for the Vertex file.
 	 */
 	public Shader(String fragPath, String vertPath) {
+		// Adding this shader to the public shaders list.
+		GeneralSettings.shaders.add(this);
 		// Load the code to the strings.
 		String frag = loadAsString(fragPath);
 		String vert = loadAsString(vertPath);
