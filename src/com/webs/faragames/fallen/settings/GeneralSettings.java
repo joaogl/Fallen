@@ -24,13 +24,5 @@ public class GeneralSettings {
 		// Game debugging
 		public final static boolean useAverageFPS = false;
 		public final static int ticksPerAverage = 10;
-
-	/**
-	 * ---------------------------------- // Entities Settings // ----------------------------------
-	 **/
-		
-		// Entities Size
-		public static int entWidth = 16;
-		public static int entHeight = 16;
 	
 }
