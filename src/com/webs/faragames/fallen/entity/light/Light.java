@@ -19,8 +19,7 @@ public abstract class Light extends Entity {
 
 	/**
 	 * Type 1 for PointLight
-	 * Type 2 for DirectionalLight
-	 * Type 3 for SpotLight
+	 * Type 2 for SpotLight
 	 */
 	public float red, green, blue, intensity, type, hasLightSpot, facing, size;
 	public Shader shade = new Shader("res/shaders/light.frag");
@@ -44,15 +43,10 @@ public abstract class Light extends Entity {
 		this.hasLightSpot = 1;
 	}
 
-	/*
-	 * TODO: REMOVE SHADER RECOMPILE
-	 */
 	public void update() {
 		if (this.facing <= 360) this.facing++;
 		else this.facing = 0;
 		this.size = 90;
-		//if (Keyboard.isKeyDown(Keyboard.KEY_R)) 
-		shade.recompile();
 	}
 
 	public abstract void tick();
@@ -61,13 +55,13 @@ public abstract class Light extends Entity {
 		this.shade.bind();
 		float xx = this.location.getX() - this.world.getXOffset();
 		float yy = this.location.getY() - this.world.getYOffset();
-		glUniform1f(glGetUniformLocation(shade.getShade(), "lightInt"), this.intensity);
-		glUniform2f(glGetUniformLocation(shade.getShade(), "lightLocation"), xx, GeneralSettings.HEIGHT - yy);
-		glUniform3f(glGetUniformLocation(shade.getShade(), "lightColor"), this.red, this.green, this.blue);
-		glUniform1f(glGetUniformLocation(shade.getShade(), "lightType"), this.type);
-		glUniform1f(glGetUniformLocation(shade.getShade(), "lightCenter"), this.hasLightSpot);
-		glUniform1f(glGetUniformLocation(shade.getShade(), "lightFacing"), this.facing);
-		glUniform1f(glGetUniformLocation(shade.getShade(), "lightSize"), this.size);
+		glUniform1f(glGetUniformLocation(shade.getShader(), "lightInt"), this.intensity);
+		glUniform2f(glGetUniformLocation(shade.getShader(), "lightLocation"), xx, GeneralSettings.HEIGHT - yy);
+		glUniform3f(glGetUniformLocation(shade.getShader(), "lightColor"), this.red, this.green, this.blue);
+		glUniform1f(glGetUniformLocation(shade.getShader(), "lightType"), this.type);
+		glUniform1f(glGetUniformLocation(shade.getShader(), "lightCenter"), this.hasLightSpot);
+		glUniform1f(glGetUniformLocation(shade.getShader(), "lightFacing"), this.facing);
+		glUniform1f(glGetUniformLocation(shade.getShader(), "lightSize"), this.size);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 

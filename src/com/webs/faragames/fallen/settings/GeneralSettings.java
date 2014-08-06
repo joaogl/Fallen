@@ -2,7 +2,6 @@ package com.webs.faragames.fallen.settings;
 
 public class GeneralSettings {
 
-
 	/**
 	 * ---------------------------------- // General Game Settings // ----------------------------------
 	 **/
@@ -17,8 +16,14 @@ public class GeneralSettings {
 		public final static int WIDTH = 800;
 		public final static int HEIGHT = 600;
 		public final static int TILE_SIZE = 64;
-		public final static int TILE_SIZE_MASK = 6;
-		
+		public final static int TILE_SIZE_MASK = 6;		
+
+	/**
+	 * ---------------------------------- // Debugging Settings // ----------------------------------
+	 **/
+		// Game debugging
+		public final static boolean useAverageFPS = false;
+		public final static int ticksPerAverage = 10;
 
 	/**
 	 * ---------------------------------- // Entities Settings // ----------------------------------

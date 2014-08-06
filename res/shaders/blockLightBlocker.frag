@@ -48,7 +48,7 @@ void main() {
 					color /= (distance / (ints * falloff));
 					changed = 1;
 					num++;
-				} else if (lightType[i] == 3) {
+				} else if (lightType[i] == 2) {
 					float angle = degrees(acos((pos.x - gl_FragCoord.x) / distance));		
 					if (pos.y < gl_FragCoord.y) angle = 360 - angle;
 					

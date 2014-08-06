@@ -80,15 +80,15 @@ public abstract class Entity {
 			}
 		}
 
-		glUniform1f(glGetUniformLocation(shade.getShade(), "dayLight"), this.world.DAY_LIGHT);
+		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), this.world.DAY_LIGHT);
 
-		glUniform2(glGetUniformLocation(shade.getShade(), "lightPosition"), Buffer.createFloatBuffer(positions));
-		glUniform3(glGetUniformLocation(shade.getShade(), "lightColor"), Buffer.createFloatBuffer(colors));
-		glUniform1(glGetUniformLocation(shade.getShade(), "lightIntensity"), Buffer.createFloatBuffer(intensities));
-		glUniform1(glGetUniformLocation(shade.getShade(), "lightInUse"), Buffer.createFloatBuffer(inUse));
-		glUniform1(glGetUniformLocation(shade.getShade(), "lightType"), Buffer.createFloatBuffer(type));
-		glUniform1(glGetUniformLocation(shade.getShade(), "lightSize"), Buffer.createFloatBuffer(size));
-		glUniform1(glGetUniformLocation(shade.getShade(), "lightFacing"), Buffer.createFloatBuffer(facing));
+		glUniform2(glGetUniformLocation(shade.getShader(), "lightPosition"), Buffer.createFloatBuffer(positions));
+		glUniform3(glGetUniformLocation(shade.getShader(), "lightColor"), Buffer.createFloatBuffer(colors));
+		glUniform1(glGetUniformLocation(shade.getShader(), "lightIntensity"), Buffer.createFloatBuffer(intensities));
+		glUniform1(glGetUniformLocation(shade.getShader(), "lightInUse"), Buffer.createFloatBuffer(inUse));
+		glUniform1(glGetUniformLocation(shade.getShader(), "lightType"), Buffer.createFloatBuffer(type));
+		glUniform1(glGetUniformLocation(shade.getShader(), "lightSize"), Buffer.createFloatBuffer(size));
+		glUniform1(glGetUniformLocation(shade.getShader(), "lightFacing"), Buffer.createFloatBuffer(facing));
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
@@ -96,7 +96,7 @@ public abstract class Entity {
 		glTranslatef(x, y, 0);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, this.texture);
-		glUniform1i(glGetUniformLocation(shade.getShade(), "texture"), 0);
+		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
 		glBegin(GL_QUADS);
 		{

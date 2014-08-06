@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Vector2f;
 
 import com.webs.faragames.fallen.entity.Entity;
-import com.webs.faragames.fallen.entity.light.DirectionalLight;
 import com.webs.faragames.fallen.entity.light.Light;
 import com.webs.faragames.fallen.entity.light.PointLight;
 import com.webs.faragames.fallen.entity.light.SpotLight;
@@ -47,11 +46,6 @@ public class World {
 		PointLight l2 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l2.init(this);
 		this.entities.add(l2);
-
-		location = new Vector2f((6 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (4 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		DirectionalLight l3 = new DirectionalLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
-		l3.init(this);
-		this.entities.add(l3);
 
 		for (int i = 1; i <= blockCount; i++) {
 			int x = (int) (Math.random() * (GeneralSettings.WIDTH - GeneralSettings.TILE_SIZE));

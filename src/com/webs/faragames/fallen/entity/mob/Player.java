@@ -15,9 +15,6 @@ public class Player extends Entity {
 		this.texture = Texture.Player;
 	}
 
-	/*
-	 * TODO: REMOVE SHADER RECOMPILE
-	 */
 	@Override
 	public void update() {
 		float xa = 0;
@@ -38,7 +35,6 @@ public class Player extends Entity {
 		this.y += ya;
 
 		this.world.setOffset((int) ((this.x + (SIZE / 2)) - GeneralSettings.WIDTH / 2), (int) (this.y + (SIZE / 2) - GeneralSettings.HEIGHT / 2));
-		shade.recompile();
 	}
 
 	public void tick() {
