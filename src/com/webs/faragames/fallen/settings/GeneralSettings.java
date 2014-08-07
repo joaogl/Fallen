@@ -5,13 +5,19 @@ import java.util.List;
 
 import com.webs.faragames.fallen.graphics.Shader;
 
+/**
+ * Class to handle General Settings.
+ * 
+ * @author FARA Games
+ *
+ */
 public class GeneralSettings {
 
 	/**
-	 * This is the array list that will hold all the shaders for a clean up at the end of the running process.
-	 */
-	public static List<Shader> shaders = new ArrayList<Shader>();
-	
+	 * ---------------------------------- // Game Variables // ----------------------------------
+	 **/
+		// This is the array list that will hold all the shaders for a clean up at the end of the running process.
+		public static List<Shader> shaders = new ArrayList<Shader>();	
 
 	/**
 	 * ---------------------------------- // General Game Settings // ----------------------------------

@@ -89,9 +89,8 @@ public class Shader {
 			String line;
 			// Reading from the file to the string.
 			BufferedReader reader = new BufferedReader(new FileReader(path));
-			while ((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null)
 				shaderSource.append(line).append("\n");
-			}
 			reader.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

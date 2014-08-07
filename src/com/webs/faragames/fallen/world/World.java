@@ -12,6 +12,12 @@ import com.webs.faragames.fallen.world.tile.Tile;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * A class that handles all the world stuff.
+ * 
+ * @author FARA Games
+ *
+ */
 public class World {
 
 	public float DAY_LIGHT = 1f;
@@ -44,7 +50,7 @@ public class World {
 		//				b.init(this);
 		//				this.entities.add(b);
 
-		player = new Player();
+		player = new Player(50, 50, 64, 64);
 		player.init(this);
 		this.entities.add(player);
 	}
