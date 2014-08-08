@@ -55,7 +55,7 @@ public abstract class Light extends Entity {
 	 */
 	public Light(Vector2f location, float red, float green, float blue) {
 		// Calling the super method with the location and size.
-		super((int) location.x, (int) location.y, 5, 5);
+		super((int) location.x, (int) location.y, GeneralSettings.defaultLightPointSize, GeneralSettings.defaultLightPointSize);
 		// Setting the variables
 		this.location = location;
 		this.red = red;
@@ -83,7 +83,7 @@ public abstract class Light extends Entity {
 	 *            : Light Intensity
 	 */
 	public Light(Vector2f location, float red, float green, float blue, float inte) {
-		super((int) location.x, (int) location.y, 5, 5);
+		super((int) location.x, (int) location.y, GeneralSettings.defaultLightPointSize, GeneralSettings.defaultLightPointSize);
 		this.location = location;
 		this.red = red;
 		this.green = green;
@@ -155,26 +155,37 @@ public abstract class Light extends Entity {
 	/**
 	 * The most important method for the Shadows.
 	 * 
-	 * @param entities 
+	 * @param entities
+	 *            : all the entities to check for shadows cast.
 	 * @param tiles
+	 *            : all the tiles to check for shadows cast.
 	 */
 	public void renderShadows(ArrayList<Entity> entities, Tile[] tiles) {
+		// Getting OpenGL ready for shadows render.
 		glColorMask(false, false, false, false);
 		glStencilFunc(GL_ALWAYS, 1, 1);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
+		// Run through all the entities to check if they need to cast shadows.
 		for (Entity entity : entities) {
+			// Is the entity light collidable.
 			if (entity.isLightCollidable()) {
+				// Get the entities vertices.
 				Vector2f[] vertices = entity.getVertices();
+				// Go through all the vertices.
 				for (int i = 0; i < vertices.length; i++) {
+					// Setup the variables for the shaders calculations.
 					Vector2f currentVertex = vertices[i];
 					Vector2f nextVertex = vertices[(i + 1) % vertices.length];
 					Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
 					Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
 					Vector2f lightToCurrent = Vector2f.sub(currentVertex, this.location, null);
+					// Checking if there should be a cast.
 					if (Vector2f.dot(normal, lightToCurrent) > 0) {
+						// Adding two points for the cast.
 						Vector2f point1 = Vector2f.add(currentVertex, (Vector2f) Vector2f.sub(currentVertex, this.location, null).scale(800), null);
 						Vector2f point2 = Vector2f.add(nextVertex, (Vector2f) Vector2f.sub(nextVertex, this.location, null).scale(800), null);
+						// Rendering the casts.
 						glBegin(GL_QUADS);
 						{
 							glVertex2f(currentVertex.getX(), currentVertex.getY());
@@ -188,18 +199,26 @@ public abstract class Light extends Entity {
 			}
 		}
 
+		// Run through all the tiles to check if they need to cast shadows.
 		for (Tile tile : tiles) {
+			// Is the tile light collidable.
 			if (tile != null && tile.isLightCollidable()) {
+				// Get the tile vertices.
 				Vector2f[] vertices = tile.getVertices();
+				// Go through all the vertices.
 				for (int i = 0; i < vertices.length; i++) {
+					// Setup the variables for the shaders calculations.
 					Vector2f currentVertex = vertices[i];
 					Vector2f nextVertex = vertices[(i + 1) % vertices.length];
 					Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
 					Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
 					Vector2f lightToCurrent = Vector2f.sub(currentVertex, this.location, null);
+					// Checking if there should be a cast.
 					if (Vector2f.dot(normal, lightToCurrent) > 0) {
+						// Adding two points for the cast.
 						Vector2f point1 = Vector2f.add(currentVertex, (Vector2f) Vector2f.sub(currentVertex, this.location, null).scale(800), null);
 						Vector2f point2 = Vector2f.add(nextVertex, (Vector2f) Vector2f.sub(nextVertex, this.location, null).scale(800), null);
+						// Rendering the casts.
 						glBegin(GL_QUADS);
 						{
 							glVertex2f(currentVertex.getX(), currentVertex.getY());
@@ -213,35 +232,73 @@ public abstract class Light extends Entity {
 			}
 		}
 
+		// Getting the OpenGL ready to go.
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 		glStencilFunc(GL_EQUAL, 0, 1);
 		glColorMask(true, true, true, true);
 	}
 
+	/**
+	 * Method to set the Light x location.
+	 * 
+	 * @param x
+	 *            : float with the x location.
+	 */
 	public void setX(float x) {
 		this.location.x = x;
 	}
 
+	/**
+	 * Method to set the Light y location.
+	 * 
+	 * @param y
+	 *            : float with the y location.
+	 */
 	public void setY(float y) {
 		this.location.y = y;
 	}
 
+	/**
+	 * Method to get the Light x location.
+	 * 
+	 * @return int with the x coordinates.
+	 */
 	public int getX() {
 		return (int) this.location.x;
 	}
 
+	/**
+	 * Method to get the Light y location.
+	 * 
+	 * @return int with the y coordinates.
+	 */
 	public int getY() {
 		return (int) this.location.y;
 	}
 
+	/**
+	 * Method to get the Light Type.
+	 * 
+	 * @return float, 1 for PointLight, 2 for SpotLight.
+	 */
 	public float getType() {
 		return this.type;
 	}
 
+	/**
+	 * Method to get where's the Light facing.
+	 * 
+	 * @return float, degrees to where the Light is facing.
+	 */
 	public float getFacing() {
 		return this.facing;
 	}
 
+	/**
+	 * Method to get the Light size.
+	 * 
+	 * @return float, Light size.
+	 */
 	public float getSize() {
 		return this.size;
 	}

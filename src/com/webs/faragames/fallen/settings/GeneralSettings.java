@@ -48,6 +48,11 @@ public class GeneralSettings {
 		// Entity Speed Settings
 		public final static float defaultEntityWalking = 2.5f;
 		public final static float defaultEntityRunning = 4f;
+		
+		// Light Settings
+		public final static int defaultLightPointSize = 5;
+		public final static int defaultLightSize = 10;
+		public final static int defaultLightFacing = 10;
 
 	/**
 	 * ---------------------------------- // Shaders Settings // ----------------------------------

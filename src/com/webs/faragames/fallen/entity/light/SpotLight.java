@@ -2,6 +2,8 @@ package com.webs.faragames.fallen.entity.light;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import com.webs.faragames.fallen.settings.GeneralSettings;
+
 /**
  * Class for the Spot Light.
  * 
@@ -25,8 +27,8 @@ public class SpotLight extends Light {
 	public SpotLight(Vector2f location, float red, float green, float blue) {
 		super(location, red, green, blue);
 		this.type = 2;
-		this.size = 10;
-		this.facing = 10;
+		this.size = GeneralSettings.defaultLightSize;
+		this.facing = GeneralSettings.defaultLightFacing;
 	}
 
 	/**
@@ -46,8 +48,33 @@ public class SpotLight extends Light {
 	public SpotLight(Vector2f location, float red, float green, float blue, float inte) {
 		super(location, red, green, blue, inte);
 		this.type = 2;
-		this.size = 10;
-		this.facing = 10;
+		this.size = GeneralSettings.defaultLightSize;
+		this.facing = GeneralSettings.defaultLightFacing;
+	}
+
+	/**
+	 * Constructor to create the Light.
+	 * 
+	 * @param location
+	 *            : Vector2f with the light location.
+	 * @param red
+	 *            : float with the red value for the light color.
+	 * @param green
+	 *            : float with the green value for the light color.
+	 * @param blue
+	 *            : float with the blue value for the light color.
+	 * @param inte
+	 *            : float with the light intensity.
+	 * @param size
+	 *            : int with the light size.
+	 * @param facing
+	 *            : int with the light facing direction.
+	 */
+	public SpotLight(Vector2f location, float red, float green, float blue, float inte, int size, int facing) {
+		super(location, red, green, blue, inte);
+		this.type = 2;
+		this.size = size;
+		this.facing = facing;
 	}
 
 	/**
