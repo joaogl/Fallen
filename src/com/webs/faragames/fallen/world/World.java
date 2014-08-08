@@ -42,11 +42,15 @@ public class World {
 	protected boolean goingUp = false;
 
 	/**
+	 * World constructor to generate a new world.
 	 * 
 	 * @param width
+	 *            : width of the world.
 	 * @param height
+	 *            : height of the world.
 	 */
 	public World(int width, int height) {
+		// Setting up the variables
 		this.width = width;
 		this.height = height;
 		this.xOffset = 0;
@@ -70,61 +74,165 @@ public class World {
 		//				this.entities.add(b);
 	}
 
+	/**
+	 * Method to get the world Height
+	 * 
+	 * @return int with the world Height
+	 */
+	public int getHeight() {
+		return this.height;
+	}
+
+	/**
+	 * Method to render the entire world called by the Main Class.
+	 */
+	public void render() {
+		// Moving the Render to the right position to render.
+		glTranslatef(-this.xOffset, -this.yOffset, 0f);
+		// Clearing the colors.
+		glColor3f(1f, 1f, 1f);
+
+		// Getting the variables ready to check what tiles to render.
+		int x0 = this.xOffset >> GeneralSettings.TILE_SIZE_MASK;
+		int x1 = (this.xOffset >> GeneralSettings.TILE_SIZE_MASK) + 14;
+		int y0 = this.yOffset >> GeneralSettings.TILE_SIZE_MASK;
+		int y1 = (this.yOffset >> GeneralSettings.TILE_SIZE_MASK) + 11;
+		// Going through all the tiles to render.
+		for (int y = y0; y < y1; y++) {
+			for (int x = x0; x < x1; x++) {
+				// Getting and Rendering all the tiles.S
+				Tile tile = getTile(x, y);
+				if (tile != null) tile.render(x << GeneralSettings.TILE_SIZE_MASK, y << GeneralSettings.TILE_SIZE_MASK, this, getNearByLights(x << GeneralSettings.TILE_SIZE_MASK, y << GeneralSettings.TILE_SIZE_MASK));
+			}
+		}
+		// Clearing the colors once more.
+		glColor3f(1f, 1f, 1f);
+		// Going througth all the entities
+		for (Entity e : this.entities) {
+			// Checking if they are close to the player.
+			if (e != null && getDistance(e, Main.player) < 800) {
+				if (e instanceof Light) {
+					// If its a Light render it and its shadows. 
+					((Light) e).renderShadows(entities, worldTiles);
+					((Light) e).render();
+					// If not just render the Entity.
+				} else e.render(getNearByLights(e.getX(), e.getY()));
+			}
+		}
+		// Moving the Render back to the default position.
+		glTranslatef(this.xOffset, this.yOffset, 0f);
+	}
+
+	/**
+	 * Method to update everything called by the Main class 60 times per second.
+	 */
+	public void update() {
+		// Updating all the entities.
+		for (Entity e : this.entities)
+			if (e != null) e.update();
+
+		// Updating all the world tiles.
+		for (Tile t : this.worldTiles)
+			if (t != null) t.update();
+
+		// Keep increasing and decreasing the Day Light value.
+		if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;
+		else if (this.DAY_LIGHT >= 1.0f) this.goingUp = false;
+
+		if (this.goingUp) this.DAY_LIGHT += 0.001f;
+		else this.DAY_LIGHT -= 0.001f;
+	}
+
+	/**
+	 * Method to tick everything called by the Main class once per second.
+	 */
+	public void tick() {
+		// If an entity is removed remove it from the Array.
+		for (Entity e : this.entities)
+			if (e != null && e.isRemoved()) this.entities.remove(e);
+
+		// Tick the entities.
+		for (Entity e : this.entities)
+			if (e != null) e.tick();
+	}
+
+	/**
+	 * Method to the the Offset's.
+	 * 
+	 * @param xOffset
+	 *            : int with the right x offset.
+	 * @param yOffset
+	 *            : int with the right y offset.
+	 */
 	public void setOffset(int xOffset, int yOffset) {
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 	}
 
+	/**
+	 * Method to get x Offset.
+	 * 
+	 * @return int with the x Offset.
+	 */
 	public int getXOffset() {
 		return this.xOffset;
 	}
 
+	/**
+	 * Method to get y Offset.
+	 * 
+	 * @return int with the y Offset.
+	 */
 	public int getYOffset() {
 		return this.yOffset;
 	}
 
+	/**
+	 * Method to get the world Width
+	 * 
+	 * @return int with the world Width
+	 */
 	public int getWidth() {
 		return this.width;
 	}
 
-	public int getHeight() {
-		return this.height;
-	}
-
-	public void render() {
-		glTranslatef(-this.xOffset, -this.yOffset, 0f);
-		glColor3f(1f, 1f, 1f);
-
-		int x0 = this.xOffset >> GeneralSettings.TILE_SIZE_MASK;
-		int x1 = (this.xOffset >> GeneralSettings.TILE_SIZE_MASK) + 14;
-		int y0 = this.yOffset >> GeneralSettings.TILE_SIZE_MASK;
-		int y1 = (this.yOffset >> GeneralSettings.TILE_SIZE_MASK) + 11;
-		for (int y = y0; y < y1; y++) {
-			for (int x = x0; x < x1; x++) {
-				Tile tile = getTile(x, y);
-				if (tile != null) tile.render(x << GeneralSettings.TILE_SIZE_MASK, y << GeneralSettings.TILE_SIZE_MASK, this, getNearByLights(x << GeneralSettings.TILE_SIZE_MASK, y << GeneralSettings.TILE_SIZE_MASK));
-			}
-		}
-		glColor3f(1f, 1f, 1f);
-		for (Entity e : this.entities) {
-			if (e != null && getDistance(e, Main.player) < 800) {
-				if (e instanceof Light) {
-					((Light) e).renderShadows(entities, worldTiles);
-					((Light) e).render();
-				} else e.render(getNearByLights(e.getX(), e.getY()));
-			}
-		}
-		glTranslatef(this.xOffset, this.yOffset, 0f);
-	}
-
+	/**
+	 * Method to get the distance between two entities.
+	 * 
+	 * @param a
+	 *            : First Entity.
+	 * @param b
+	 *            : Second Entity.
+	 * @return double with the distance.
+	 */
 	public double getDistance(Entity a, Entity b) {
 		return Math.sqrt(Math.pow((b.getX() - a.getX()), 2) + Math.pow((b.getY() - a.getY()), 2));
 	}
 
+	/**
+	 * Method to get the distance between two entities.
+	 * 
+	 * @param a
+	 *            : First Entity.
+	 * @param x
+	 *            : Second Entity X.
+	 * @param y
+	 *            : Second Entity Y.
+	 * @return double with the distance.
+	 */
 	public double getDistance(Entity a, float x, float y) {
 		return Math.sqrt(Math.pow((x - a.getX()), 2) + Math.pow((y - a.getY()), 2));
 	}
 
+	/**
+	 * Method to get the near by lights.
+	 * 
+	 * @param x
+	 *            : x coordinates from where to search.
+	 * @param y
+	 *            : y coordinates from where to search.
+	 * @return ArrayList with all the near by lights.
+	 */
 	public ArrayList<Entity> getNearByLights(float x, float y) {
 		ArrayList<Entity> ent = new ArrayList<Entity>();
 
@@ -134,37 +242,42 @@ public class World {
 		return ent;
 	}
 
-	public void update() {
-		for (Entity e : this.entities)
-			if (e != null && e.isRemoved()) this.entities.remove(e);
-
-		for (Entity e : this.entities)
-			if (e != null) e.update();
-
-		for (Tile t : this.worldTiles)
-			if (t != null) t.update();
-
-		if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;
-		else if (this.DAY_LIGHT >= 1.0f) this.goingUp = false;
-
-		if (this.goingUp) this.DAY_LIGHT += 0.001f;
-		else this.DAY_LIGHT -= 0.001f;
-	}
-
-	public void tick() {
-		for (Entity e : this.entities)
-			if (e != null) e.tick();
-	}
-
+	/**
+	 * Method to the a Tile to a certain position.
+	 * 
+	 * @param x
+	 *            : x location for the new Tile.
+	 * @param y
+	 *            : y location for the new Tile.
+	 * @param tile
+	 *            : the Tile that you want to be added.
+	 */
 	public void setTile(int x, int y, Tile tile) {
 		this.worldTiles[x + y * this.width] = tile;
 	}
 
+	/**
+	 * Method to add a new entity to the world.
+	 * 
+	 * @param ent
+	 *            : Which entity to add.
+	 */
 	public void addEntity(Entity ent) {
+		// Initialize the entity.
 		ent.init(this);
+		// Add the entity to the world.
 		this.entities.add(ent);
 	}
 
+	/**
+	 * Method to get the Tile at a certain location.
+	 * 
+	 * @param x
+	 *            : x location to get the Tile from.
+	 * @param y
+	 *            : y location to get the Tile from.
+	 * @return Tile at the specified location.
+	 */
 	public Tile getTile(int x, int y) {
 		if (x < 0 || x >= width || y < 0 || y >= height) return null;
 		return this.worldTiles[x + y * this.width];
