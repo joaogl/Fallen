@@ -13,28 +13,75 @@ import com.webs.faragames.fallen.world.tile.Tile;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
+/**
+ * Abstract class for all the Light types.
+ * 
+ * @author FARA Games
+ *
+ */
 public abstract class Light extends Entity {
 
+	/**
+	 * Light location.
+	 */
 	public Vector2f location;
 
 	/**
-	 * Type 1 for PointLight
-	 * Type 2 for SpotLight
+	 * Red, Green and Blue is the light color.
+	 * Intensity marks the lights intensity.
+	 * Type 1 for PointLight.
+	 * Type 2 for SpotLight.
+	 * hasLightSpot is the setting that defines if the light has a strong center or a normal center effect.
+	 * facing is the degrees to where the light is facing.
+	 * size is the size of the light effect.
 	 */
 	public float red, green, blue, intensity, type, hasLightSpot, facing, size;
-	public Shader shade = new Shader("res/shaders/light.frag");
+	/**
+	 * Shader ID for the Light.
+	 */
+	public Shader shade = new Shader(GeneralSettings.lightPath);
 
+	/**
+	 * Constructor for the normal light with color and location.
+	 * 
+	 * @param location
+	 *            : Light location.
+	 * @param red
+	 *            : Light red color value.
+	 * @param green
+	 *            : Light green color value.
+	 * @param blue
+	 *            : Light blue color value.
+	 */
 	public Light(Vector2f location, float red, float green, float blue) {
+		// Calling the super method with the location and size.
 		super((int) location.x, (int) location.y, 5, 5);
+		// Setting the variables
 		this.location = location;
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
+		// Because it doesnt have a intensity value on the constructor we are randomizing it.
 		this.intensity = (float) (new Random().nextGaussian() / 5) * 3;
+		// Setting the spot center to 1 which is the default, and also setting the type to 1 has the default light, Point Light.  
 		this.type = 1;
 		this.hasLightSpot = 1;
 	}
 
+	/**
+	 * Constructor for the normal light with color, location and intensity.
+	 * 
+	 * @param location
+	 *            : Light location.
+	 * @param red
+	 *            : Light red color value.
+	 * @param green
+	 *            : Light green color value.
+	 * @param blue
+	 *            : Light blue color value.
+	 * @param inte
+	 *            : Light Intensity
+	 */
 	public Light(Vector2f location, float red, float green, float blue, float inte) {
 		super((int) location.x, (int) location.y, 5, 5);
 		this.location = location;
@@ -45,18 +92,30 @@ public abstract class Light extends Entity {
 		this.hasLightSpot = 1;
 	}
 
+	/**
+	 * Method to update called by the World Class 60 times per second.
+	 */
 	public void update() {
 		if (this.facing <= 360) this.facing++;
 		else this.facing = 0;
 		this.size = 90;
 	}
 
+	/**
+	 * Method to tick called by the World Class once per second.
+	 */
 	public abstract void tick();
 
-	public void render() {
+	/**
+	 * Method to bind the Texture uniforms, this is what makes the shaders and stuff.
+	 */
+	public void bindUniforms() {
+		// Binding the shader program.
 		this.shade.bind();
+		// Getting the right light coordinates.S
 		float xx = this.location.getX() - this.world.getXOffset();
 		float yy = this.location.getY() - this.world.getYOffset();
+		// Sending all the information from the lights to the shader.
 		glUniform1f(glGetUniformLocation(shade.getShader(), "lightInt"), this.intensity);
 		glUniform2f(glGetUniformLocation(shade.getShader(), "lightLocation"), xx, GeneralSettings.HEIGHT - yy);
 		glUniform3f(glGetUniformLocation(shade.getShader(), "lightColor"), this.red, this.green, this.blue);
@@ -64,9 +123,20 @@ public abstract class Light extends Entity {
 		glUniform1f(glGetUniformLocation(shade.getShader(), "lightCenter"), this.hasLightSpot);
 		glUniform1f(glGetUniformLocation(shade.getShader(), "lightFacing"), this.facing);
 		glUniform1f(glGetUniformLocation(shade.getShader(), "lightSize"), this.size);
+	}
+
+	/**
+	 * Method called by the World Class to render the Light.
+	 */
+	public void render() {
+		// Binding the Uniforms to make the light effects.
+		bindUniforms();
+
+		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 
+		// Drawing the QUAD.
 		glBegin(GL_QUADS);
 		{
 			glVertex2f(0 + this.world.getXOffset(), 0 + this.world.getYOffset());
@@ -76,11 +146,18 @@ public abstract class Light extends Entity {
 		}
 		glEnd();
 
+		// Disabling BLEND and releasing shader for next render.
 		glDisable(GL_BLEND);
 		this.shade.release();
 		glClear(GL_STENCIL_BUFFER_BIT);
 	}
 
+	/**
+	 * The most important method for the Shadows.
+	 * 
+	 * @param entities 
+	 * @param tiles
+	 */
 	public void renderShadows(ArrayList<Entity> entities, Tile[] tiles) {
 		glColorMask(false, false, false, false);
 		glStencilFunc(GL_ALWAYS, 1, 1);

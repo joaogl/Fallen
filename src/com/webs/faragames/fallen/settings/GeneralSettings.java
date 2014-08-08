@@ -56,6 +56,7 @@ public class GeneralSettings {
 		public final static String entityVertexPath = "res/shaders/entity.vert";
 		public final static String lightBlockerPath = "res/shaders/blockLightBlocker.frag";
 		public final static String lightSpreaderPath = "res/shaders/blockSpreadLight.frag";
+		public final static String lightPath = "res/shaders/light.frag";
 		public final static int howManyLightsToShader = 50; // How many lights will be passed to the shaders.
 
 }
