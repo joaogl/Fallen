@@ -2,10 +2,9 @@ package com.webs.faragames.fallen.world.tile;
 
 import java.util.Random;
 
-import org.lwjgl.util.vector.Vector2f;
-
 import com.webs.faragames.fallen.entity.light.specific.FireLight;
 import com.webs.faragames.fallen.graphics.Texture;
+import com.webs.faragames.fallen.utils.Vector2f;
 import com.webs.faragames.fallen.world.World;
 
 /**

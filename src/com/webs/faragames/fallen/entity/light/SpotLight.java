@@ -1,8 +1,7 @@
 package com.webs.faragames.fallen.entity.light;
 
-import org.lwjgl.util.vector.Vector2f;
-
 import com.webs.faragames.fallen.settings.GeneralSettings;
+import com.webs.faragames.fallen.utils.Vector2f;
 
 /**
  * Class for the Spot Light.

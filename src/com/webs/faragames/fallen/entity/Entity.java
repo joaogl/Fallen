@@ -3,12 +3,11 @@ package com.webs.faragames.fallen.entity;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.lwjgl.util.vector.Vector2f;
-
 import com.webs.faragames.fallen.entity.light.Light;
 import com.webs.faragames.fallen.graphics.Buffer;
 import com.webs.faragames.fallen.graphics.Shader;
 import com.webs.faragames.fallen.settings.GeneralSettings;
+import com.webs.faragames.fallen.utils.Vector2f;
 import com.webs.faragames.fallen.world.World;
 
 import static org.lwjgl.opengl.GL11.*;
