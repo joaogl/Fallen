@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.webs.faragames.fallen.Main;
 import com.webs.faragames.fallen.entity.Entity;
 import com.webs.faragames.fallen.entity.light.Light;
+import com.webs.faragames.fallen.graphics.Font;
 import com.webs.faragames.fallen.graphics.Texture;
 import com.webs.faragames.fallen.settings.GeneralSettings;
 import com.webs.faragames.fallen.world.tile.SolidTile;
@@ -41,6 +42,8 @@ public class World {
 	 */
 	protected boolean goingUp = false;
 
+	Font font;
+
 	/**
 	 * World constructor to generate a new world.
 	 * 
@@ -72,6 +75,8 @@ public class World {
 		//				Block b = new Block(x, y, GeneralSettings.TILE_SIZE, GeneralSettings.TILE_SIZE, false);
 		//				b.init(this);
 		//				this.entities.add(b);
+
+		font = new Font();
 	}
 
 	/**
@@ -121,6 +126,8 @@ public class World {
 		}
 		// Moving the Render back to the default position.
 		glTranslatef(this.xOffset, this.yOffset, 0f);
+
+		font.drawString("Ola", 100, 100, 3, 5);
 	}
 
 	/**

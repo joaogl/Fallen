@@ -6,6 +6,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
 import com.webs.faragames.fallen.entity.mob.Player;
+import com.webs.faragames.fallen.graphics.Font;
 import com.webs.faragames.fallen.graphics.Shader;
 import com.webs.faragames.fallen.graphics.Texture;
 import com.webs.faragames.fallen.settings.GeneralSettings;
@@ -100,6 +101,9 @@ public class Main implements Runnable {
 		// Cleaning all the Shaders
 		for (Shader shader : GeneralSettings.shaders)
 			if (shader != null) shader.cleanUp();
+		// Cleaning all the Font
+		for (Font font : GeneralSettings.font)
+			if (font != null) font.cleanup();
 		// Destroying the Display.
 		Display.destroy();
 	}

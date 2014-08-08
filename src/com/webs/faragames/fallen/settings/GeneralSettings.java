@@ -3,6 +3,7 @@ package com.webs.faragames.fallen.settings;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.webs.faragames.fallen.graphics.Font;
 import com.webs.faragames.fallen.graphics.Shader;
 
 /**
@@ -18,6 +19,8 @@ public class GeneralSettings {
 	 **/
 		// This is the array list that will hold all the shaders for a clean up at the end of the running process.
 		public static List<Shader> shaders = new ArrayList<Shader>();	
+		// This is the array list that will hold all the Font's for a clean up at the end of the running process.
+		public static List<Font> font = new ArrayList<Font>();	
 
 	/**
 	 * ---------------------------------- // General Game Settings // ----------------------------------
@@ -61,6 +64,7 @@ public class GeneralSettings {
 		public final static String entityVertexPath = "res/shaders/entity.vert";
 		public final static String lightBlockerPath = "res/shaders/blockLightBlocker.frag";
 		public final static String lightSpreaderPath = "res/shaders/blockSpreadLight.frag";
+		public final static String staticLettersPath = "res/shaders/staticLetters.frag";
 		public final static String lightPath = "res/shaders/light.frag";
 		public final static int howManyLightsToShader = 50; // How many lights will be passed to the shaders.
 

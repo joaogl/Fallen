@@ -200,7 +200,6 @@ public abstract class Entity {
 			glVertex2f(this.width, 0);
 		}
 		glEnd();
-		;
 		// Releasing the Texture.
 		glBindTexture(GL_TEXTURE_2D, 0);
 		// Getting the location back to the inicial coordinates.
