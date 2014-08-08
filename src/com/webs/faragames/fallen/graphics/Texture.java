@@ -7,6 +7,8 @@ import java.nio.IntBuffer;
 
 import javax.imageio.ImageIO;
 
+import com.webs.faragames.fallen.utils.Buffer;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 /**

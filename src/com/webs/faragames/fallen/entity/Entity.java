@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.webs.faragames.fallen.entity.light.Light;
-import com.webs.faragames.fallen.graphics.Buffer;
 import com.webs.faragames.fallen.graphics.Shader;
 import com.webs.faragames.fallen.settings.GeneralSettings;
+import com.webs.faragames.fallen.utils.Buffer;
 import com.webs.faragames.fallen.utils.Vector2f;
 import com.webs.faragames.fallen.world.World;
 
