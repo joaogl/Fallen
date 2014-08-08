@@ -2,9 +2,9 @@ package com.webs.faragames.fallen.world;
 
 import java.util.ArrayList;
 
+import com.webs.faragames.fallen.Main;
 import com.webs.faragames.fallen.entity.Entity;
 import com.webs.faragames.fallen.entity.light.Light;
-import com.webs.faragames.fallen.entity.mob.Player;
 import com.webs.faragames.fallen.graphics.Texture;
 import com.webs.faragames.fallen.settings.GeneralSettings;
 import com.webs.faragames.fallen.world.tile.SolidTile;
@@ -20,13 +20,32 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class World {
 
+	/**
+	 * Variable to hold the current DAY_LIGHT Light value.
+	 */
 	public float DAY_LIGHT = 1f;
+	/**
+	 * Array that stores all the entities on the world.
+	 */
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
+	/**
+	 * Array that stores all the Tiles on the world.
+	 */
 	public Tile[] worldTiles;
+	/**
+	 * Map with, height and the offset's for the map moving.
+	 */
 	private int width, height, xOffset, yOffset;
-	public static Player player;
+	/**
+	 * Variable to keep track of the day rizing.
+	 */
 	protected boolean goingUp = false;
 
+	/**
+	 * 
+	 * @param width
+	 * @param height
+	 */
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -49,10 +68,6 @@ public class World {
 		//				Block b = new Block(x, y, GeneralSettings.TILE_SIZE, GeneralSettings.TILE_SIZE, false);
 		//				b.init(this);
 		//				this.entities.add(b);
-
-		player = new Player(50, 50, 64, 64);
-		player.init(this);
-		this.entities.add(player);
 	}
 
 	public void setOffset(int xOffset, int yOffset) {
@@ -92,7 +107,7 @@ public class World {
 		}
 		glColor3f(1f, 1f, 1f);
 		for (Entity e : this.entities) {
-			if (e != null && getDistance(e, player) < 800) {
+			if (e != null && getDistance(e, Main.player) < 800) {
 				if (e instanceof Light) {
 					((Light) e).renderShadows(entities, worldTiles);
 					((Light) e).render();
@@ -143,6 +158,11 @@ public class World {
 
 	public void setTile(int x, int y, Tile tile) {
 		this.worldTiles[x + y * this.width] = tile;
+	}
+
+	public void addEntity(Entity ent) {
+		ent.init(this);
+		this.entities.add(ent);
 	}
 
 	public Tile getTile(int x, int y) {

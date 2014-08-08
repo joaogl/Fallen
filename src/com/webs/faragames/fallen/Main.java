@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
+import com.webs.faragames.fallen.entity.mob.Player;
 import com.webs.faragames.fallen.graphics.Shader;
 import com.webs.faragames.fallen.graphics.Texture;
 import com.webs.faragames.fallen.settings.GeneralSettings;
@@ -33,6 +34,10 @@ public class Main implements Runnable {
 	 * This is the instance for the world.
 	 */
 	public static World world;
+	/**
+	 * Player Instance.
+	 */
+	public static Player player;
 
 	/**
 	 * Main method that runs the game.
@@ -72,6 +77,10 @@ public class Main implements Runnable {
 		Texture.load();
 		// Creating the world
 		world = new World(12, 16);
+
+		// Creating and adding the player to the world.
+		player = new Player(50, 50, 64, 64);
+		world.addEntity(player);
 
 		// Setting up all the Projections stuff for OpenGL
 		glMatrixMode(GL_PROJECTION);
