@@ -24,24 +24,30 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _GetGameVersionsResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "GetGameVersionsResponse");
     private final static QName _Login_QNAME = new QName("http://fallen.joaolourenco.net/", "Login");
     private final static QName _Update_QNAME = new QName("http://fallen.joaolourenco.net/", "Update");
     private final static QName _ChangeUserAccount_QNAME = new QName("http://fallen.joaolourenco.net/", "ChangeUserAccount");
-    private final static QName _AddUser_QNAME = new QName("http://fallen.joaolourenco.net/", "AddUser");
     private final static QName _LogoutResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "LogoutResponse");
+    private final static QName _AddUser_QNAME = new QName("http://fallen.joaolourenco.net/", "AddUser");
+    private final static QName _CheckGameVersion_QNAME = new QName("http://fallen.joaolourenco.net/", "CheckGameVersion");
     private final static QName _ManageBan_QNAME = new QName("http://fallen.joaolourenco.net/", "ManageBan");
     private final static QName _AddUserResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "AddUserResponse");
-    private final static QName _CreateUserResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "CreateUserResponse");
     private final static QName _Logout_QNAME = new QName("http://fallen.joaolourenco.net/", "Logout");
-    private final static QName _ChangeUserAccountResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "ChangeUserAccountResponse");
+    private final static QName _GetGameVersions_QNAME = new QName("http://fallen.joaolourenco.net/", "GetGameVersions");
+    private final static QName _CreateUserResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "CreateUserResponse");
+    private final static QName _CheckLauncherVersion_QNAME = new QName("http://fallen.joaolourenco.net/", "CheckLauncherVersion");
     private final static QName _CreateUser_QNAME = new QName("http://fallen.joaolourenco.net/", "CreateUser");
+    private final static QName _ChangeUserAccountResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "ChangeUserAccountResponse");
     private final static QName _ManageUser_QNAME = new QName("http://fallen.joaolourenco.net/", "ManageUser");
+    private final static QName _CheckGameVersionResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "CheckGameVersionResponse");
     private final static QName _ManageUserResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "ManageUserResponse");
     private final static QName _DeleteUserResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "DeleteUserResponse");
     private final static QName _DeleteUser_QNAME = new QName("http://fallen.joaolourenco.net/", "DeleteUser");
     private final static QName _UpdateResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "UpdateResponse");
     private final static QName _ManageBanResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "ManageBanResponse");
     private final static QName _LoginResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "LoginResponse");
+    private final static QName _CheckLauncherVersionResponse_QNAME = new QName("http://fallen.joaolourenco.net/", "CheckLauncherVersionResponse");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: net.joaolourenco.fallen
@@ -59,11 +65,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link AddUser }
+     * Create an instance of {@link GetGameVersionsResponse }
      * 
      */
-    public AddUser createAddUser() {
-        return new AddUser();
+    public GetGameVersionsResponse createGetGameVersionsResponse() {
+        return new GetGameVersionsResponse();
     }
 
     /**
@@ -72,6 +78,22 @@ public class ObjectFactory {
      */
     public LogoutResponse createLogoutResponse() {
         return new LogoutResponse();
+    }
+
+    /**
+     * Create an instance of {@link AddUser }
+     * 
+     */
+    public AddUser createAddUser() {
+        return new AddUser();
+    }
+
+    /**
+     * Create an instance of {@link CheckGameVersion }
+     * 
+     */
+    public CheckGameVersion createCheckGameVersion() {
+        return new CheckGameVersion();
     }
 
     /**
@@ -99,14 +121,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateUserResponse }
-     * 
-     */
-    public CreateUserResponse createCreateUserResponse() {
-        return new CreateUserResponse();
-    }
-
-    /**
      * Create an instance of {@link Logout }
      * 
      */
@@ -115,11 +129,35 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetGameVersions }
+     * 
+     */
+    public GetGameVersions createGetGameVersions() {
+        return new GetGameVersions();
+    }
+
+    /**
+     * Create an instance of {@link CreateUserResponse }
+     * 
+     */
+    public CreateUserResponse createCreateUserResponse() {
+        return new CreateUserResponse();
+    }
+
+    /**
      * Create an instance of {@link ManageBan }
      * 
      */
     public ManageBan createManageBan() {
         return new ManageBan();
+    }
+
+    /**
+     * Create an instance of {@link CheckLauncherVersion }
+     * 
+     */
+    public CheckLauncherVersion createCheckLauncherVersion() {
+        return new CheckLauncherVersion();
     }
 
     /**
@@ -136,6 +174,14 @@ public class ObjectFactory {
      */
     public CreateUser createCreateUser() {
         return new CreateUser();
+    }
+
+    /**
+     * Create an instance of {@link CheckGameVersionResponse }
+     * 
+     */
+    public CheckGameVersionResponse createCheckGameVersionResponse() {
+        return new CheckGameVersionResponse();
     }
 
     /**
@@ -163,6 +209,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link CheckLauncherVersionResponse }
+     * 
+     */
+    public CheckLauncherVersionResponse createCheckLauncherVersionResponse() {
+        return new CheckLauncherVersionResponse();
+    }
+
+    /**
      * Create an instance of {@link UpdateResponse }
      * 
      */
@@ -176,6 +230,15 @@ public class ObjectFactory {
      */
     public ManageBanResponse createManageBanResponse() {
         return new ManageBanResponse();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetGameVersionsResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "GetGameVersionsResponse")
+    public JAXBElement<GetGameVersionsResponse> createGetGameVersionsResponse(GetGameVersionsResponse value) {
+        return new JAXBElement<GetGameVersionsResponse>(_GetGameVersionsResponse_QNAME, GetGameVersionsResponse.class, null, value);
     }
 
     /**
@@ -206,6 +269,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link LogoutResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "LogoutResponse")
+    public JAXBElement<LogoutResponse> createLogoutResponse(LogoutResponse value) {
+        return new JAXBElement<LogoutResponse>(_LogoutResponse_QNAME, LogoutResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AddUser }{@code >}}
      * 
      */
@@ -215,12 +287,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link LogoutResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link CheckGameVersion }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "LogoutResponse")
-    public JAXBElement<LogoutResponse> createLogoutResponse(LogoutResponse value) {
-        return new JAXBElement<LogoutResponse>(_LogoutResponse_QNAME, LogoutResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "CheckGameVersion")
+    public JAXBElement<CheckGameVersion> createCheckGameVersion(CheckGameVersion value) {
+        return new JAXBElement<CheckGameVersion>(_CheckGameVersion_QNAME, CheckGameVersion.class, null, value);
     }
 
     /**
@@ -242,15 +314,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link CreateUserResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "CreateUserResponse")
-    public JAXBElement<CreateUserResponse> createCreateUserResponse(CreateUserResponse value) {
-        return new JAXBElement<CreateUserResponse>(_CreateUserResponse_QNAME, CreateUserResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Logout }{@code >}}
      * 
      */
@@ -260,12 +323,30 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ChangeUserAccountResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetGameVersions }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "ChangeUserAccountResponse")
-    public JAXBElement<ChangeUserAccountResponse> createChangeUserAccountResponse(ChangeUserAccountResponse value) {
-        return new JAXBElement<ChangeUserAccountResponse>(_ChangeUserAccountResponse_QNAME, ChangeUserAccountResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "GetGameVersions")
+    public JAXBElement<GetGameVersions> createGetGameVersions(GetGameVersions value) {
+        return new JAXBElement<GetGameVersions>(_GetGameVersions_QNAME, GetGameVersions.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreateUserResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "CreateUserResponse")
+    public JAXBElement<CreateUserResponse> createCreateUserResponse(CreateUserResponse value) {
+        return new JAXBElement<CreateUserResponse>(_CreateUserResponse_QNAME, CreateUserResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CheckLauncherVersion }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "CheckLauncherVersion")
+    public JAXBElement<CheckLauncherVersion> createCheckLauncherVersion(CheckLauncherVersion value) {
+        return new JAXBElement<CheckLauncherVersion>(_CheckLauncherVersion_QNAME, CheckLauncherVersion.class, null, value);
     }
 
     /**
@@ -278,12 +359,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ChangeUserAccountResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "ChangeUserAccountResponse")
+    public JAXBElement<ChangeUserAccountResponse> createChangeUserAccountResponse(ChangeUserAccountResponse value) {
+        return new JAXBElement<ChangeUserAccountResponse>(_ChangeUserAccountResponse_QNAME, ChangeUserAccountResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ChangeUserAccount }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "ManageUser")
     public JAXBElement<ChangeUserAccount> createManageUser(ChangeUserAccount value) {
         return new JAXBElement<ChangeUserAccount>(_ManageUser_QNAME, ChangeUserAccount.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CheckGameVersionResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "CheckGameVersionResponse")
+    public JAXBElement<CheckGameVersionResponse> createCheckGameVersionResponse(CheckGameVersionResponse value) {
+        return new JAXBElement<CheckGameVersionResponse>(_CheckGameVersionResponse_QNAME, CheckGameVersionResponse.class, null, value);
     }
 
     /**
@@ -338,6 +437,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "LoginResponse")
     public JAXBElement<LoginResponse> createLoginResponse(LoginResponse value) {
         return new JAXBElement<LoginResponse>(_LoginResponse_QNAME, LoginResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CheckLauncherVersionResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://fallen.joaolourenco.net/", name = "CheckLauncherVersionResponse")
+    public JAXBElement<CheckLauncherVersionResponse> createCheckLauncherVersionResponse(CheckLauncherVersionResponse value) {
+        return new JAXBElement<CheckLauncherVersionResponse>(_CheckLauncherVersionResponse_QNAME, CheckLauncherVersionResponse.class, null, value);
     }
 
 }

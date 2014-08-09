@@ -1,6 +1,7 @@
 
 package net.joaolourenco.fallen;
 
+import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -26,6 +27,18 @@ public interface FallenSystem {
 
     /**
      * 
+     * @return
+     *     returns java.util.List<java.lang.String>
+     */
+    @WebMethod(operationName = "GetGameVersions")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "GetGameVersions", targetNamespace = "http://fallen.joaolourenco.net/", className = "net.joaolourenco.fallen.GetGameVersions")
+    @ResponseWrapper(localName = "GetGameVersionsResponse", targetNamespace = "http://fallen.joaolourenco.net/", className = "net.joaolourenco.fallen.GetGameVersionsResponse")
+    @Action(input = "http://fallen.joaolourenco.net/FallenSystem/GetGameVersionsRequest", output = "http://fallen.joaolourenco.net/FallenSystem/GetGameVersionsResponse")
+    public List<String> getGameVersions();
+
+    /**
+     * 
      * @param arg3
      * @param arg2
      * @param arg1
@@ -47,6 +60,30 @@ public interface FallenSystem {
         String arg2,
         @WebParam(name = "arg3", targetNamespace = "")
         String arg3);
+
+    /**
+     * 
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod(operationName = "CheckLauncherVersion")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "CheckLauncherVersion", targetNamespace = "http://fallen.joaolourenco.net/", className = "net.joaolourenco.fallen.CheckLauncherVersion")
+    @ResponseWrapper(localName = "CheckLauncherVersionResponse", targetNamespace = "http://fallen.joaolourenco.net/", className = "net.joaolourenco.fallen.CheckLauncherVersionResponse")
+    @Action(input = "http://fallen.joaolourenco.net/FallenSystem/CheckLauncherVersionRequest", output = "http://fallen.joaolourenco.net/FallenSystem/CheckLauncherVersionResponse")
+    public String checkLauncherVersion();
+
+    /**
+     * 
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod(operationName = "CheckGameVersion")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "CheckGameVersion", targetNamespace = "http://fallen.joaolourenco.net/", className = "net.joaolourenco.fallen.CheckGameVersion")
+    @ResponseWrapper(localName = "CheckGameVersionResponse", targetNamespace = "http://fallen.joaolourenco.net/", className = "net.joaolourenco.fallen.CheckGameVersionResponse")
+    @Action(input = "http://fallen.joaolourenco.net/FallenSystem/CheckGameVersionRequest", output = "http://fallen.joaolourenco.net/FallenSystem/CheckGameVersionResponse")
+    public String checkGameVersion();
 
     /**
      * 
