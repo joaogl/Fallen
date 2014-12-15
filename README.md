@@ -28,4 +28,4 @@ TO-DO
 
 License
 ======
-The MIT License
+Apache License 2.0
