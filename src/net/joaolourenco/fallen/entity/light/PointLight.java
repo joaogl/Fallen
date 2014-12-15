@@ -5,7 +5,7 @@ import net.joaolourenco.fallen.utils.Vector2f;
 /**
  * Class for the Point Light.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class PointLight extends Light {

@@ -10,7 +10,7 @@ import net.joaolourenco.fallen.world.World;
 /**
  * Class for Fire effect Tiles.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class FireTile extends Tile {

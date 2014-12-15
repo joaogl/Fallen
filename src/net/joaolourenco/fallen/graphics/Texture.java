@@ -20,7 +20,7 @@ import static org.lwjgl.opengl.GL13.*;
 /**
  * Texture holder and loader class.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class Texture {

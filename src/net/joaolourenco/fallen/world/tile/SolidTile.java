@@ -3,7 +3,7 @@ package net.joaolourenco.fallen.world.tile;
 /**
  * Class for all the Solid, this is, collidable Tiles.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class SolidTile extends Tile {

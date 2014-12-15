@@ -8,7 +8,7 @@ import net.joaolourenco.fallen.utils.Vector2f;
 /**
  * Class for the Fire Light.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class FireLight extends PointLight {

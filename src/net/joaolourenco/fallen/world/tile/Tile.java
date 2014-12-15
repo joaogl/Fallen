@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL20.*;
 /**
  * Abstract Class for all the Tile Types
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public abstract class Tile {
@@ -225,7 +225,8 @@ public abstract class Tile {
 	 * @return Vector2f[] with the vertices.
 	 */
 	public Vector2f[] getVertices() {
-		return new Vector2f[] { new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
+		return new Vector2f[] {
+				new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
 	}
 
 	/**

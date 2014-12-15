@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 /**
  * Player Class.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class Player extends Mob {

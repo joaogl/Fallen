@@ -18,7 +18,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Main Class for the game.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class Main implements Runnable {

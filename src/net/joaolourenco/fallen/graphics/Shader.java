@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL20.*;
 /**
  * Method that processes all the shaders stuff.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class Shader {

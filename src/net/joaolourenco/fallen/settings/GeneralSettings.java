@@ -10,7 +10,7 @@ import net.joaolourenco.fallen.graphics.font.Font;
 /**
  * Class to handle General Settings.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class GeneralSettings {

@@ -6,7 +6,7 @@ import net.joaolourenco.fallen.utils.Vector2f;
 /**
  * Class for the Spot Light.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class SpotLight extends Light {

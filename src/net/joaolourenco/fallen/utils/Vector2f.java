@@ -3,7 +3,7 @@ package net.joaolourenco.fallen.utils;
 /**
  * Class to simulate LWJGL Vector2f Class.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class Vector2f {

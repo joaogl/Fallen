@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL20.*;
 /**
  * Abstract Class for all the Entity Types
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public abstract class Entity {

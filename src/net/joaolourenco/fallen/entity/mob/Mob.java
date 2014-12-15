@@ -5,7 +5,7 @@ import net.joaolourenco.fallen.entity.Entity;
 /**
  * Abstract class for all the Mob
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public abstract class Mob extends Entity {

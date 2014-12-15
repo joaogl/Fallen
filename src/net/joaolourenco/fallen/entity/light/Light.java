@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL20.*;
 /**
  * Abstract class for all the Light types.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public abstract class Light extends Entity {

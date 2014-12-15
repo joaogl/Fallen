@@ -9,7 +9,7 @@ import org.lwjgl.BufferUtils;
 /**
  * Class Buffer handles all the OpenGL Buffers.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class Buffer {

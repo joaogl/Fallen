@@ -8,7 +8,6 @@ import net.joaolourenco.fallen.entity.light.Light;
 import net.joaolourenco.fallen.graphics.Texture;
 import net.joaolourenco.fallen.graphics.font.AnimatedText;
 import net.joaolourenco.fallen.settings.GeneralSettings;
-import net.joaolourenco.fallen.world.tile.FireTile;
 import net.joaolourenco.fallen.world.tile.SolidTile;
 import net.joaolourenco.fallen.world.tile.Tile;
 
@@ -17,7 +16,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * A class that handles all the world stuff.
  * 
- * @author FARA Games
+ * @author Joao Lourenco
  *
  */
 public class World {
