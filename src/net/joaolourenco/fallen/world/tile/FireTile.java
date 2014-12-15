@@ -1,11 +1,11 @@
-package com.webs.faragames.fallen.world.tile;
+package net.joaolourenco.fallen.world.tile;
 
 import java.util.Random;
 
-import com.webs.faragames.fallen.entity.light.specific.FireLight;
-import com.webs.faragames.fallen.graphics.Texture;
-import com.webs.faragames.fallen.utils.Vector2f;
-import com.webs.faragames.fallen.world.World;
+import net.joaolourenco.fallen.entity.light.specific.FireLight;
+import net.joaolourenco.fallen.graphics.Texture;
+import net.joaolourenco.fallen.utils.Vector2f;
+import net.joaolourenco.fallen.world.World;
 
 /**
  * Class for Fire effect Tiles.

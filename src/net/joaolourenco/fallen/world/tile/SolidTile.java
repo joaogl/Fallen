@@ -1,4 +1,4 @@
-package com.webs.faragames.fallen.world.tile;
+package net.joaolourenco.fallen.world.tile;
 
 /**
  * Class for all the Solid, this is, collidable Tiles.

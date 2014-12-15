@@ -1,9 +1,9 @@
-package com.webs.faragames.fallen.entity.light.specific;
+package net.joaolourenco.fallen.entity.light.specific;
 
 import java.util.Random;
 
-import com.webs.faragames.fallen.entity.light.PointLight;
-import com.webs.faragames.fallen.utils.Vector2f;
+import net.joaolourenco.fallen.entity.light.PointLight;
+import net.joaolourenco.fallen.utils.Vector2f;
 
 /**
  * Class for the Fire Light.

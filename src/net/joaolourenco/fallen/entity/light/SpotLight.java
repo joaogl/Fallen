@@ -1,7 +1,7 @@
-package com.webs.faragames.fallen.entity.light;
+package net.joaolourenco.fallen.entity.light;
 
-import com.webs.faragames.fallen.settings.GeneralSettings;
-import com.webs.faragames.fallen.utils.Vector2f;
+import net.joaolourenco.fallen.settings.GeneralSettings;
+import net.joaolourenco.fallen.utils.Vector2f;
 
 /**
  * Class for the Spot Light.

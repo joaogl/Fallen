@@ -1,9 +1,9 @@
-package com.webs.faragames.fallen.entity.mob;
+package net.joaolourenco.fallen.entity.mob;
+
+import net.joaolourenco.fallen.graphics.Texture;
+import net.joaolourenco.fallen.settings.GeneralSettings;
 
 import org.lwjgl.input.Keyboard;
-
-import com.webs.faragames.fallen.graphics.Texture;
-import com.webs.faragames.fallen.settings.GeneralSettings;
 
 /**
  * Player Class.

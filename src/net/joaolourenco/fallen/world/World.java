@@ -1,15 +1,16 @@
-package com.webs.faragames.fallen.world;
+package net.joaolourenco.fallen.world;
 
 import java.util.ArrayList;
 
-import com.webs.faragames.fallen.Main;
-import com.webs.faragames.fallen.entity.Entity;
-import com.webs.faragames.fallen.entity.light.Light;
-import com.webs.faragames.fallen.graphics.Font;
-import com.webs.faragames.fallen.graphics.Texture;
-import com.webs.faragames.fallen.settings.GeneralSettings;
-import com.webs.faragames.fallen.world.tile.SolidTile;
-import com.webs.faragames.fallen.world.tile.Tile;
+import net.joaolourenco.fallen.Main;
+import net.joaolourenco.fallen.entity.Entity;
+import net.joaolourenco.fallen.entity.light.Light;
+import net.joaolourenco.fallen.graphics.Texture;
+import net.joaolourenco.fallen.graphics.font.AnimatedText;
+import net.joaolourenco.fallen.settings.GeneralSettings;
+import net.joaolourenco.fallen.world.tile.FireTile;
+import net.joaolourenco.fallen.world.tile.SolidTile;
+import net.joaolourenco.fallen.world.tile.Tile;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -42,7 +43,7 @@ public class World {
 	 */
 	protected boolean goingUp = false;
 
-	Font font;
+	AnimatedText at;
 
 	/**
 	 * World constructor to generate a new world.
@@ -76,7 +77,7 @@ public class World {
 		//				b.init(this);
 		//				this.entities.add(b);
 
-		font = new Font();
+		at = new AnimatedText("Ola", 50, 50, 5);
 	}
 
 	/**
@@ -126,8 +127,6 @@ public class World {
 		}
 		// Moving the Render back to the default position.
 		glTranslatef(this.xOffset, this.yOffset, 0f);
-
-		font.drawString("Ola", 100, 100, 3, 5);
 	}
 
 	/**

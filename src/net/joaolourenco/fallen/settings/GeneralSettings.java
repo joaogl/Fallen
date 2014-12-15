@@ -1,10 +1,11 @@
-package com.webs.faragames.fallen.settings;
+package net.joaolourenco.fallen.settings;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.webs.faragames.fallen.graphics.Font;
-import com.webs.faragames.fallen.graphics.Shader;
+import net.joaolourenco.fallen.graphics.Shader;
+import net.joaolourenco.fallen.graphics.font.AnimatedText;
+import net.joaolourenco.fallen.graphics.font.Font;
 
 /**
  * Class to handle General Settings.
@@ -21,6 +22,8 @@ public class GeneralSettings {
 		public static List<Shader> shaders = new ArrayList<Shader>();	
 		// This is the array list that will hold all the Font's for a clean up at the end of the running process.
 		public static List<Font> font = new ArrayList<Font>();	
+		// This is the array list that will hold all the AnimatedText to keep them updated.
+		public static List<AnimatedText> animatedText = new ArrayList<AnimatedText>();	
 
 	/**
 	 * ---------------------------------- // General Game Settings // ----------------------------------

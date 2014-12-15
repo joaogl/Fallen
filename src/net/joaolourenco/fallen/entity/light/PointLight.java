@@ -1,6 +1,6 @@
-package com.webs.faragames.fallen.entity.light;
+package net.joaolourenco.fallen.entity.light;
 
-import com.webs.faragames.fallen.utils.Vector2f;
+import net.joaolourenco.fallen.utils.Vector2f;
 
 /**
  * Class for the Point Light.

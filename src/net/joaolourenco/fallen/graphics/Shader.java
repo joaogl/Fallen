@@ -1,11 +1,13 @@
-package com.webs.faragames.fallen.graphics;
+package net.joaolourenco.fallen.graphics;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.webs.faragames.fallen.settings.GeneralSettings;
+import net.joaolourenco.fallen.settings.GeneralSettings;
+
+import org.lwjgl.opengl.ARBShaderObjects;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -117,7 +119,8 @@ public class Shader {
 		// Compiling the shader code.
 		glCompileShader(fragmentShader);
 		// Checking if it worked.
-		if (glGetShaderi(fragmentShader, GL_COMPILE_STATUS) == GL_FALSE) System.err.println("Fragment shader not compiled!");
+		if (glGetShaderi(fragmentShader, GL_COMPILE_STATUS) == GL_FALSE) System.err.println("Fragment shader not compiled! " + getLog(fragmentShader));
+
 		// Saving the fragment ID.
 		this.fragmentID = fragmentShader;
 		// Attaching the fragment to the shader program.
@@ -126,6 +129,10 @@ public class Shader {
 		glLinkProgram(this.shader);
 		// Validating the shader program.
 		glValidateProgram(this.shader);
+	}
+
+	public String getLog(int prog) {
+		return ARBShaderObjects.glGetInfoLogARB(prog, ARBShaderObjects.glGetObjectParameteriARB(prog, ARBShaderObjects.GL_OBJECT_INFO_LOG_LENGTH_ARB));
 	}
 
 	/**
@@ -149,8 +156,8 @@ public class Shader {
 		glCompileShader(fragmentShader);
 		glCompileShader(vertexShader);
 		// Checking if it worked.
-		if (glGetShaderi(fragmentShader, GL_COMPILE_STATUS) == GL_FALSE) System.err.println("Fragment shader not compiled!");
-		if (glGetShaderi(vertexShader, GL_COMPILE_STATUS) == GL_FALSE) System.err.println("Vertex shader not compiled!");
+		if (glGetShaderi(fragmentShader, GL_COMPILE_STATUS) == GL_FALSE) System.err.println(fragmentPath + " : Fragment shader not compiled! " + getLog(fragmentShader));
+		if (glGetShaderi(vertexShader, GL_COMPILE_STATUS) == GL_FALSE) System.err.println(vertexPath + " : Vertex shader not compiled! " + getLog(vertexShader));
 		// Saving the fragment ID.
 		this.fragmentID = fragmentShader;
 		this.vertexID = vertexShader;

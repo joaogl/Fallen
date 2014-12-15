@@ -1,6 +1,6 @@
-package com.webs.faragames.fallen.entity.mob;
+package net.joaolourenco.fallen.entity.mob;
 
-import com.webs.faragames.fallen.entity.Entity;
+import net.joaolourenco.fallen.entity.Entity;
 
 /**
  * Abstract class for all the Mob

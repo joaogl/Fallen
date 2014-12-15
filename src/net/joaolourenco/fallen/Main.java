@@ -1,16 +1,17 @@
-package com.webs.faragames.fallen;
+package net.joaolourenco.fallen;
+
+import net.joaolourenco.fallen.entity.mob.Player;
+import net.joaolourenco.fallen.graphics.Shader;
+import net.joaolourenco.fallen.graphics.Texture;
+import net.joaolourenco.fallen.graphics.font.AnimatedText;
+import net.joaolourenco.fallen.graphics.font.Font;
+import net.joaolourenco.fallen.settings.GeneralSettings;
+import net.joaolourenco.fallen.world.World;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
-
-import com.webs.faragames.fallen.entity.mob.Player;
-import com.webs.faragames.fallen.graphics.Font;
-import com.webs.faragames.fallen.graphics.Shader;
-import com.webs.faragames.fallen.graphics.Texture;
-import com.webs.faragames.fallen.settings.GeneralSettings;
-import com.webs.faragames.fallen.world.World;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -170,6 +171,9 @@ public class Main implements Runnable {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		// Render the new stuff.
 		world.render();
+		// Render the AnimatedText
+		for (AnimatedText at : GeneralSettings.animatedText)
+			at.render();
 	}
 
 	/**
@@ -177,6 +181,12 @@ public class Main implements Runnable {
 	 */
 	private void update() {
 		world.update();
+		// Update the AnimatedText
+		for (int i = 0; i < GeneralSettings.animatedText.size(); i++) {
+			AnimatedText at = GeneralSettings.animatedText.get(i);
+			if (at != null && !at.isRemoved()) at.update();
+			else if (at != null && at.isRemoved()) GeneralSettings.animatedText.remove(at);
+		}
 	}
 
 	/**

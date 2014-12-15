@@ -1,7 +1,9 @@
-package com.webs.faragames.fallen.graphics;
+package net.joaolourenco.fallen.graphics.font;
 
-import com.webs.faragames.fallen.settings.GeneralSettings;
-import com.webs.faragames.fallen.utils.Buffer;
+import net.joaolourenco.fallen.graphics.Shader;
+import net.joaolourenco.fallen.graphics.Texture;
+import net.joaolourenco.fallen.settings.GeneralSettings;
+import net.joaolourenco.fallen.utils.Buffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;

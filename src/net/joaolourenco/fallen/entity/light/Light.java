@@ -1,13 +1,13 @@
-package com.webs.faragames.fallen.entity.light;
+package net.joaolourenco.fallen.entity.light;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.webs.faragames.fallen.entity.Entity;
-import com.webs.faragames.fallen.graphics.Shader;
-import com.webs.faragames.fallen.settings.GeneralSettings;
-import com.webs.faragames.fallen.utils.Vector2f;
-import com.webs.faragames.fallen.world.tile.Tile;
+import net.joaolourenco.fallen.entity.Entity;
+import net.joaolourenco.fallen.graphics.Shader;
+import net.joaolourenco.fallen.settings.GeneralSettings;
+import net.joaolourenco.fallen.utils.Vector2f;
+import net.joaolourenco.fallen.world.tile.Tile;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;

@@ -1,4 +1,4 @@
-package com.webs.faragames.fallen.utils;
+package net.joaolourenco.fallen.utils;
 
 /**
  * Class to simulate LWJGL Vector2f Class.

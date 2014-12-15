@@ -1,4 +1,4 @@
-package com.webs.faragames.fallen.graphics;
+package net.joaolourenco.fallen.graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -10,9 +10,9 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.lwjgl.BufferUtils;
+import net.joaolourenco.fallen.utils.Buffer;
 
-import com.webs.faragames.fallen.utils.Buffer;
+import org.lwjgl.BufferUtils;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;

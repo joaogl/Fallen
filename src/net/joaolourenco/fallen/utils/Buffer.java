@@ -1,4 +1,4 @@
-package com.webs.faragames.fallen.utils;
+package net.joaolourenco.fallen.utils;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
