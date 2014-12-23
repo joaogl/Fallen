@@ -48,7 +48,10 @@ public class Texture {
 	public static int Player = 0;
 	public static int[] Fire = new int[5];
 
-	private static List<Integer> textures = new ArrayList<Integer>();
+	/**
+	 * All the font textures are stored here.
+	 */
+	private static List<Integer> fontTextures = new ArrayList<Integer>();
 
 	/**
 	 * Function to load some early needed resorces.
@@ -129,7 +132,21 @@ public class Texture {
 		return texture;
 	}
 
+	/**
+	 * Method to load the font from file to the system.
+	 * 
+	 * @param path
+	 *            : Path of the font texture.
+	 * @param hLength
+	 *            : height of the file.
+	 * @param vLength
+	 *            : width of the file.
+	 * @param size
+	 *            : size of each letter.
+	 * @return int[], all the font letters ID's.
+	 */
 	public static int[] loadFont(String path, int hLength, int vLength, int size) {
+		// Setting up some variables
 		int width = 0;
 		int height = 0;
 		int index = 0;
@@ -137,23 +154,31 @@ public class Texture {
 		int[] sheet = null;
 		BufferedImage image;
 		try {
+			// Loading the image 
 			image = ImageIO.read(new FileInputStream(path));
 			width = image.getWidth();
 			height = image.getHeight();
 			sheet = new int[width * height];
+			// Moving the RGB data to the sheet array
 			image.getRGB(0, 0, width, height, sheet, 0, width);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// Going through each line.
 		for (int y0 = 0; y0 < vLength; y0++) {
+			// Going through each column.			
 			for (int x0 = 0; x0 < hLength; x0++) {
+				// Creating the letter pixel array to store the letter pixels.
 				int[] letter = new int[size * size];
+				// Going through each pixel of the letter
 				for (int y = 0; y < size; y++) {
 					for (int x = 0; x < size; x++) {
+						// Getting the color of each pixel.
 						letter[x + y * size] = sheet[(x + x0 * size) + (y + y0 * size) * width];
 					}
 				}
 
+				// Processing the letter array for OpenGL
 				ByteBuffer buffer = BufferUtils.createByteBuffer(size * size * 4);
 				for (int y = 0; y < size; y++) {
 					for (int x = 0; x < size; x++) {
@@ -165,23 +190,37 @@ public class Texture {
 					}
 				}
 				buffer.flip();
+				// Generating the texture.
 				int texID = glGenTextures();
+				// Binding the texture in order to define it.
 				glBindTexture(GL_TEXTURE_2D, texID);
+				// Defining the texture.
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+				// Defining the texture parameters.
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				textures.add(texID);
+				// Adding the font to the font array to be used later.
+				fontTextures.add(texID);
 				ids[index++] = texID;
+				// Unbinding the texture.
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 		}
 
+		// Returning the array with all the texture ID's.
 		return ids;
 	}
 
+	/**
+	 * Method to get the texture.
+	 * 
+	 * @param texture
+	 *            : id of the texture to get.
+	 * @return int, the texture.
+	 */
 	public static int get(int texture) {
-		if (texture < 0 || texture >= textures.size()) return 0;
-		return textures.get(texture);
+		if (texture < 0 || texture >= fontTextures.size()) return 0;
+		return fontTextures.get(texture);
 	}
 
 }
