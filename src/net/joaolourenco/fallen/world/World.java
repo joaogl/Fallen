@@ -17,13 +17,17 @@
 package net.joaolourenco.fallen.world;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import net.joaolourenco.fallen.Main;
 import net.joaolourenco.fallen.entity.Entity;
 import net.joaolourenco.fallen.entity.light.Light;
+import net.joaolourenco.fallen.entity.light.PointLight;
+import net.joaolourenco.fallen.entity.light.SpotLight;
 import net.joaolourenco.fallen.graphics.Texture;
-import net.joaolourenco.fallen.graphics.font.AnimatedText;
 import net.joaolourenco.fallen.settings.GeneralSettings;
+import net.joaolourenco.fallen.utils.Vector2f;
+import net.joaolourenco.fallen.world.tile.FireTile;
 import net.joaolourenco.fallen.world.tile.SolidTile;
 import net.joaolourenco.fallen.world.tile.Tile;
 
@@ -58,8 +62,6 @@ public class World {
 	 */
 	protected boolean goingUp = false;
 
-	AnimatedText at;
-
 	/**
 	 * World constructor to generate a new world.
 	 * 
@@ -77,7 +79,30 @@ public class World {
 		this.height = height;
 		this.worldTiles = new Tile[this.width * this.height];
 
-		setTile(1, 1, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
+		for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++) {
+				SolidTile ti = new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt, true);
+				ti.isLightCollidable(false);
+				setTile(x, y, ti);
+			}
+		}
+
+		// setTile(1, 1, new FireTile(GeneralSettings.TILE_SIZE, Texture.Fire[0], this));
+
+		Vector2f location = new Vector2f((1 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (1 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
+		PointLight l2 = new PointLight(location, 1f, 0f, 0f);
+		l2.intensity = (Float) generateRandom(2f, 2.5f, 1);
+		l2.hasLightSpot = 0;
+		l2.init(this);
+		this.entities.add(l2);
+
+		location = new Vector2f((3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
+		SpotLight l3 = new SpotLight(location, 1f, 0f, 0f);
+		l3.intensity = (Float) generateRandom(2f, 2.5f, 1);
+		l3.hasLightSpot = 0;
+		l3.init(this);
+		this.entities.add(l3);
+
 		// Add a normal Tile: 
 		//				setTile(9, 9, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
 		// Add a fire Tile: 
@@ -91,8 +116,31 @@ public class World {
 		//				Block b = new Block(x, y, GeneralSettings.TILE_SIZE, GeneralSettings.TILE_SIZE, false);
 		//				b.init(this);
 		//				this.entities.add(b);
+		// Add Animated Text:
+		// 				AnimatedText at = new AnimatedText("?!.-,_%#$&'()*+:;<=>/^´``", 50, 50, 5);
+	}
 
-		at = new AnimatedText("Ola", 50, 50, 5);
+	public Object generateRandom(float min, float max, int type) {
+		if (type == 0) {
+			// Generate Random
+			Random rand = new Random();
+			int out = rand.nextInt((int) max);
+			// Loop until the requirements are correct
+			while (out > max || out < min)
+				out = rand.nextInt((int) max);
+			// Return the value
+			return out;
+		} else if (type == 1) {
+			// Generate Random
+			Random rand = new Random();
+			double out = min + (max - min) * rand.nextDouble();
+			// Loop until the requirements are correct
+			while (out > max || out < min)
+				out = min + (max - min) * rand.nextDouble();
+			// Return the value
+			return (float) out;
+		}
+		return 0f;
 	}
 
 	/**
@@ -157,6 +205,7 @@ public class World {
 			if (t != null) t.update();
 
 		// Keep increasing and decreasing the Day Light value.
+
 		if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;
 		else if (this.DAY_LIGHT >= 1.0f) this.goingUp = false;
 
@@ -257,8 +306,10 @@ public class World {
 	public ArrayList<Entity> getNearByLights(float x, float y) {
 		ArrayList<Entity> ent = new ArrayList<Entity>();
 
-		for (Entity e : entities)
+		for (Entity e : entities) {
 			if (e instanceof Light && getDistance(e, x, y) < 800) ent.add(e);
+
+		}
 
 		return ent;
 	}

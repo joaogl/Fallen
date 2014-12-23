@@ -18,6 +18,8 @@ package net.joaolourenco.fallen.world.tile;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
+
 import net.joaolourenco.fallen.entity.Entity;
 import net.joaolourenco.fallen.entity.light.Light;
 import net.joaolourenco.fallen.graphics.Shader;
@@ -41,7 +43,7 @@ public abstract class Tile {
 	/**
 	 * Is the tile collidable? Will the light end on the tile or keep spreading?
 	 */
-	protected boolean collidable = true, lightCollidable = true;
+	protected boolean collidable = true, lightCollidable = true, lightAffected = true;
 	/**
 	 * Size and location of the tile.
 	 */
@@ -86,12 +88,27 @@ public abstract class Tile {
 	}
 
 	/**
+	 * Constructor for square tiles which are not affected by environment light.
+	 * 
+	 * @param size
+	 *            : width and height of the Tile.
+	 * @param tex
+	 *            : Texture ID from the Texture class for the Tile.
+	 * @param lightable
+	 *            : Is tile affected by environment light.
+	 */
+	public Tile(int size, int tex, boolean lightable) {
+		this.width = size;
+		this.height = size;
+		this.tex = tex;
+		this.lightAffected = lightable;
+	}
+
+	/**
 	 * Update Method, called by the World class 60 times per second.
 	 */
 	public void update() {
-		// If the tile is using a shader that doesnt block the light and the ligthCollidable is true, change it, and vice versa.
-		if (this.lightCollidable && !this.shade.getFragPath().equalsIgnoreCase(GeneralSettings.lightBlockerPath)) this.shade = new Shader(GeneralSettings.lightSpreaderPath);
-		else if (!this.lightCollidable && !this.shade.getFragPath().equalsIgnoreCase(GeneralSettings.lightSpreaderPath)) this.shade = new Shader(GeneralSettings.lightBlockerPath);
+		if (Keyboard.isKeyDown(Keyboard.KEY_R)) shade.recompile();
 	}
 
 	/**
@@ -104,22 +121,21 @@ public abstract class Tile {
 	 */
 	public void bindUniforms(World w, ArrayList<Entity> ent) {
 		// Is there 50 Lights or less?
-		int howMany = GeneralSettings.howManyLightsToShader;
-		if (howMany < ent.size()) howMany = ent.size();
+		int howMany = ent.size();
+		if (ent.size() > GeneralSettings.howManyLightsToShader) howMany = GeneralSettings.howManyLightsToShader;
 		// Binding the shader program.
 		shade.bind();
 		// Setting up all the variables that will be passed to the shader
 		float[] positions = new float[howMany * 2];
 		float[] colors = new float[howMany * 3];
 		float[] intensities = new float[howMany];
-		float[] inUse = new float[howMany];
 		float[] type = new float[howMany];
 		float[] size = new float[howMany];
 		float[] facing = new float[howMany];
 
 		// Putting all the coordinates inside a float array.
 		for (int i = 0; i < howMany * 2; i += 2) {
-			if (ent.size() > howMany) {
+			if (i < ent.size() && ent.get(i >> 1) != null && ((Light) ent.get(i)).getLightState()) {
 				float xx = ent.get(i >> 1).getX() - w.getXOffset();
 				float yy = GeneralSettings.HEIGHT - (ent.get(i >> 1).getY() - w.getYOffset());
 
@@ -130,20 +146,12 @@ public abstract class Tile {
 
 		// Putting all the light intensities inside a float array.
 		for (int i = 0; i < howMany; i++) {
-			if (ent.size() > howMany) intensities[i] = ((Light) ent.get(i)).intensity;
-		}
-
-		// Putting the info's about the light state (on or off) inside a float array.
-		for (int i = 0; i < howMany; i++) {
-			if (ent.size() > howMany) {
-				if (i < ent.size() && ent.get(i) != null) inUse[i] = 1;
-				else inUse[i] = 0;
-			}
+			if (i < ent.size() && ent.get(i) != null && ((Light) ent.get(i)).getLightState()) intensities[i] = ((Light) ent.get(i)).intensity;
 		}
 
 		// Putting all the colors inside a float array.
 		for (int i = 0; i < howMany * 3; i += 3) {
-			if (ent.size() > howMany) {
+			if (i < ent.size() && ent.get(i / 3) != null && ((Light) ent.get(i)).getLightState()) {
 				colors[i] = ((Light) ent.get(i / 3)).red;
 				colors[i + 1] = ((Light) ent.get(i / 3)).green;
 				colors[i + 2] = ((Light) ent.get(i / 3)).blue;
@@ -152,27 +160,22 @@ public abstract class Tile {
 
 		// Putting the size, type and facing of the light inside a float array.
 		for (int i = 0; i < howMany; i++) {
-			if (ent.size() > howMany) {
-				if (ent.get(i) != null) {
-					type[i] = ((Light) ent.get(i)).getType();
-					size[i] = ((Light) ent.get(i)).getSize();
-					facing[i] = ((Light) ent.get(i)).getFacing();
-				} else {
-					size[i] = 0;
-					type[i] = 0;
-					facing[i] = 0;
-				}
+			if (i < ent.size() && ent.get(i) != null && ((Light) ent.get(i)).getLightState()) {
+				type[i] = ((Light) ent.get(i)).getType();
+				size[i] = ((Light) ent.get(i)).getSize();
+				facing[i] = ((Light) ent.get(i)).getFacing();
 			}
 		}
 
 		// Sending to the shader the current dayLight
-		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), w.DAY_LIGHT);
+		float day_light = 1f;
+		if (this.lightAffected) day_light = w.DAY_LIGHT;
+		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
 
 		// Sending all the previus information from the floats to the shader.
 		glUniform2(glGetUniformLocation(shade.getShader(), "lightPosition"), Buffer.createFloatBuffer(positions));
 		glUniform3(glGetUniformLocation(shade.getShader(), "lightColor"), Buffer.createFloatBuffer(colors));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightIntensity"), Buffer.createFloatBuffer(intensities));
-		glUniform1(glGetUniformLocation(shade.getShader(), "lightInUse"), Buffer.createFloatBuffer(inUse));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightType"), Buffer.createFloatBuffer(type));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightSize"), Buffer.createFloatBuffer(size));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightFacing"), Buffer.createFloatBuffer(facing));
@@ -262,6 +265,29 @@ public abstract class Tile {
 	 */
 	public void isLightCollidable(boolean a) {
 		this.lightCollidable = a;
+
+		// If the tile is using a shader that doesnt block the light and the ligthCollidable is true, change it, and vice versa.
+		//if (this.lightCollidable && !this.shade.getFragPath().equalsIgnoreCase(GeneralSettings.lightBlockerPath)) this.shade = new Shader(GeneralSettings.lightBlockerPath, GeneralSettings.entityVertexPath);
+		//else if (!this.lightCollidable && !this.shade.getFragPath().equalsIgnoreCase(GeneralSettings.lightSpreaderPath)) this.shade = new Shader(GeneralSettings.lightSpreaderPath, GeneralSettings.entityVertexPath);
+	}
+
+	/**
+	 * Method to define if the Tile is affected by Environment Light or not.
+	 * 
+	 * @param a
+	 *            : true if its affected, false if its not.
+	 */
+	public void isLightAffected(boolean a) {
+		this.lightAffected = a;
+	}
+
+	/**
+	 * Method to get if the Tile is affected by Environment Light or not.
+	 * 
+	 * @return boolean, true if its affected, false if its not.
+	 */
+	public boolean isLightAffected() {
+		return this.lightAffected;
 	}
 
 	/**

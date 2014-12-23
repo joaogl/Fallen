@@ -57,10 +57,10 @@ public class FireTile extends Tile {
 	 */
 	public FireTile(int size, int tex, World w) {
 		// Calling the main method of the tile.
-		super(size, tex);
+		super(size, tex, false);
 		// Applying the settings.
 		this.w = w;
-		this.lightCollidable = false;
+		this.isLightCollidable(false);
 
 		// Creating a Light on the center of the Fire.
 		Vector2f location = new Vector2f(0f, 0f);
@@ -82,7 +82,7 @@ public class FireTile extends Tile {
 		// If the x is defined, set the light to the right position. 
 		if (this.x != 9999999) {
 			w.entities.get(this.lightID).setX(this.x + (this.width / 2));
-			w.entities.get(this.lightID).setY(this.y + (this.height / 2) + 20);
+			w.entities.get(this.lightID).setY(this.y + (this.height / 2));
 		}
 		// Texture Animation.
 		time++;

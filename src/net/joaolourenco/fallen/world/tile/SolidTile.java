@@ -48,7 +48,7 @@ public class SolidTile extends Tile {
 	 */
 	public SolidTile(int size, int tex, boolean light) {
 		super(size, tex);
-		this.lightCollidable = light;
+		this.isLightCollidable(light);
 	}
 
 	/**

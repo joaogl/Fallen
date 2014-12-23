@@ -51,6 +51,12 @@ public abstract class Light extends Entity {
 	 * size is the size of the light effect.
 	 */
 	public float red, green, blue, intensity, type, hasLightSpot, facing, size;
+	
+	/**
+	 * Is the light on or off.
+	 */
+	protected boolean inAction = true;
+	
 	/**
 	 * Shader ID for the Light.
 	 */
@@ -316,6 +322,29 @@ public abstract class Light extends Entity {
 	 */
 	public float getSize() {
 		return this.size;
+	}
+
+	/**
+	 * Method to get the Light State.
+	 * 
+	 * @return boolean, Light state, on or off.
+	 */
+	public boolean getLightState() {
+		return this.inAction;
+	}
+
+	/**
+	 * Method to turn the Light off.
+	 */
+	public void turnLightOff() {
+		this.inAction = false;
+	}
+
+	/**
+	 * Method to turn the Light on.
+	 */
+	public void turnLightOn() {
+		this.inAction = true;
 	}
 
 }

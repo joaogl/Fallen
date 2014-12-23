@@ -112,14 +112,13 @@ public abstract class Entity {
 		float[] positions = new float[howMany * 2];
 		float[] colors = new float[howMany * 3];
 		float[] intensities = new float[howMany];
-		float[] inUse = new float[howMany];
 		float[] type = new float[howMany];
 		float[] size = new float[howMany];
 		float[] facing = new float[howMany];
 
 		// Putting all the coordinates inside a float array.
 		for (int i = 0; i < howMany * 2; i += 2) {
-			if (ent.size() > howMany) {
+			if (i < ent.size() && ent.get(i >> 1) != null && ((Light)ent.get(i)).getLightState()) {
 				float xx = ent.get(i >> 1).getX() - this.world.getXOffset();
 				float yy = GeneralSettings.HEIGHT - (ent.get(i >> 1).getY() - this.world.getYOffset());
 
@@ -130,20 +129,12 @@ public abstract class Entity {
 
 		// Putting all the light intensities inside a float array.
 		for (int i = 0; i < howMany; i++) {
-			if (ent.size() > howMany) intensities[i] = ((Light) ent.get(i)).intensity;
-		}
-
-		// Putting the info's about the light state (on or off) inside a float array.
-		for (int i = 0; i < howMany; i++) {
-			if (ent.size() > howMany) {
-				if (i < ent.size() && ent.get(i) != null) inUse[i] = 1;
-				else inUse[i] = 0;
-			}
+			if (i < ent.size() && ent.get(i) != null && ((Light)ent.get(i)).getLightState()) intensities[i] = ((Light) ent.get(i)).intensity;
 		}
 
 		// Putting all the colors inside a float array.
 		for (int i = 0; i < howMany * 3; i += 3) {
-			if (ent.size() > howMany) {
+			if (i < ent.size() && ent.get(i / 3) != null && ((Light)ent.get(i)).getLightState()) {
 				colors[i] = ((Light) ent.get(i / 3)).red;
 				colors[i + 1] = ((Light) ent.get(i / 3)).green;
 				colors[i + 2] = ((Light) ent.get(i / 3)).blue;
@@ -152,27 +143,20 @@ public abstract class Entity {
 
 		// Putting the size, type and facing of the light inside a float array.
 		for (int i = 0; i < howMany; i++) {
-			if (ent.size() > howMany) {
-				if (ent.get(i) != null) {
-					type[i] = ((Light) ent.get(i)).getType();
-					size[i] = ((Light) ent.get(i)).getSize();
-					facing[i] = ((Light) ent.get(i)).getFacing();
-				} else {
-					size[i] = 0;
-					type[i] = 0;
-					facing[i] = 0;
-				}
+			if (i < ent.size() && ent.get(i) != null && ((Light)ent.get(i)).getLightState()) {
+				type[i] = ((Light) ent.get(i)).getType();
+				size[i] = ((Light) ent.get(i)).getSize();
+				facing[i] = ((Light) ent.get(i)).getFacing();
 			}
 		}
 
 		// Sending to the shader the current dayLight
-		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), this.world.DAY_LIGHT);
+		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), this.world.DAY_LIGHT * 2);
 
 		// Sending all the previus information from the floats to the shader.
 		glUniform2(glGetUniformLocation(shade.getShader(), "lightPosition"), Buffer.createFloatBuffer(positions));
 		glUniform3(glGetUniformLocation(shade.getShader(), "lightColor"), Buffer.createFloatBuffer(colors));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightIntensity"), Buffer.createFloatBuffer(intensities));
-		glUniform1(glGetUniformLocation(shade.getShader(), "lightInUse"), Buffer.createFloatBuffer(inUse));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightType"), Buffer.createFloatBuffer(type));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightSize"), Buffer.createFloatBuffer(size));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightFacing"), Buffer.createFloatBuffer(facing));
@@ -233,7 +217,8 @@ public abstract class Entity {
 	 * @return Vector2f[] with the vertices.
 	 */
 	public Vector2f[] getVertices() {
-		return new Vector2f[] { new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
+		return new Vector2f[] {
+				new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
 	}
 
 	/**

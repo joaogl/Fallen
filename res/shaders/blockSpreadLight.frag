@@ -15,7 +15,9 @@ void main() {
 		alpha = 0.0;
 	}
 	
-	vec4 finalColor = vec4(color * vec4(dayLight, dayLight, dayLight, dayLight));	
+	float day = dayLight;
+	
+	vec4 finalColor = vec4(color * vec4(day, day, day, day));	
 	
 	gl_FragColor = vec4(finalColor.xyz, alpha);
 }
