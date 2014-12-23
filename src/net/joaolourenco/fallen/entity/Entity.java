@@ -19,10 +19,9 @@ package net.joaolourenco.fallen.entity;
 import java.util.ArrayList;
 import java.util.Random;
 
-import net.joaolourenco.fallen.entity.light.Light;
 import net.joaolourenco.fallen.graphics.Shader;
 import net.joaolourenco.fallen.settings.GeneralSettings;
-import net.joaolourenco.fallen.utils.Buffer;
+import net.joaolourenco.fallen.utils.ShaderUniformBinder;
 import net.joaolourenco.fallen.utils.Vector2f;
 import net.joaolourenco.fallen.world.World;
 
@@ -103,60 +102,8 @@ public abstract class Entity {
 	 *            : List of entities that emit light.
 	 */
 	public void bindUniforms(ArrayList<Entity> ent) {
-		// Is there 50 Lights or less?
-		int howMany = GeneralSettings.howManyLightsToShader;
-		if (howMany < ent.size()) howMany = ent.size();
-		// Binding the shader program.
-		shade.bind();
-		// Setting up all the variables that will be passed to the shader
-		float[] positions = new float[howMany * 2];
-		float[] colors = new float[howMany * 3];
-		float[] intensities = new float[howMany];
-		float[] type = new float[howMany];
-		float[] size = new float[howMany];
-		float[] facing = new float[howMany];
-
-		// Putting all the coordinates inside a float array.
-		for (int i = 0; i < howMany * 2; i += 2) {
-			if (i < ent.size() && ent.get(i >> 1) != null && ((Light) ent.get(i)).getLightState()) {
-				float xx = ent.get(i >> 1).getX() - this.world.getXOffset();
-				float yy = GeneralSettings.HEIGHT - (ent.get(i >> 1).getY() - this.world.getYOffset());
-
-				positions[i] = xx;
-				positions[i + 1] = yy;
-			}
-		}
-
-		// Putting all the colors inside a float array.
-		for (int i = 0; i < howMany * 3; i += 3) {
-			if (i < ent.size() && ent.get(i / 3) != null && ((Light) ent.get(i)).getLightState()) {
-				colors[i] = ((Light) ent.get(i / 3)).red;
-				colors[i + 1] = ((Light) ent.get(i / 3)).green;
-				colors[i + 2] = ((Light) ent.get(i / 3)).blue;
-			}
-		}
-
-		// Putting the size, type, facing and intensities of the light inside a float array.
-		for (int i = 0; i < howMany; i++) {
-			if (i < ent.size() && ent.get(i) != null && ((Light) ent.get(i)).getLightState()) {
-				type[i] = ((Light) ent.get(i)).getType();
-				size[i] = ((Light) ent.get(i)).getSize();
-				facing[i] = ((Light) ent.get(i)).getFacing();
-				intensities[i] = ((Light) ent.get(i)).intensity;
-			}
-		}
-
-		// Sending to the shader the current dayLight
-		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), this.world.DAY_LIGHT * 2);
-
-		// Sending all the previus information from the floats to the shader.
-		glUniform1i(glGetUniformLocation(shade.getShader(), "lightAmount"), type.length);
-		glUniform2(glGetUniformLocation(shade.getShader(), "lightPosition"), Buffer.createFloatBuffer(positions));
-		glUniform3(glGetUniformLocation(shade.getShader(), "lightColor"), Buffer.createFloatBuffer(colors));
-		glUniform1(glGetUniformLocation(shade.getShader(), "lightIntensity"), Buffer.createFloatBuffer(intensities));
-		glUniform1(glGetUniformLocation(shade.getShader(), "lightType"), Buffer.createFloatBuffer(type));
-		glUniform1(glGetUniformLocation(shade.getShader(), "lightSize"), Buffer.createFloatBuffer(size));
-		glUniform1(glGetUniformLocation(shade.getShader(), "lightFacing"), Buffer.createFloatBuffer(facing));
+		// Call the uniform binder util.
+		ShaderUniformBinder.bindUniforms(shade, this.world, ent, false);
 	}
 
 	/**

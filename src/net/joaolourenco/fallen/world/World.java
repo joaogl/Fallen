@@ -17,7 +17,6 @@
 package net.joaolourenco.fallen.world;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import net.joaolourenco.fallen.Main;
 import net.joaolourenco.fallen.entity.Entity;
@@ -27,7 +26,6 @@ import net.joaolourenco.fallen.entity.light.SpotLight;
 import net.joaolourenco.fallen.graphics.Texture;
 import net.joaolourenco.fallen.settings.GeneralSettings;
 import net.joaolourenco.fallen.utils.Vector2f;
-import net.joaolourenco.fallen.world.tile.FireTile;
 import net.joaolourenco.fallen.world.tile.SolidTile;
 import net.joaolourenco.fallen.world.tile.Tile;
 
