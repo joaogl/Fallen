@@ -89,19 +89,19 @@ public class World {
 
 		// setTile(1, 1, new FireTile(GeneralSettings.TILE_SIZE, Texture.Fire[0], this));
 
-		Vector2f location = new Vector2f((1 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (1 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		PointLight l2 = new PointLight(location, 1f, 0f, 0f);
-		l2.intensity = (Float) generateRandom(2f, 2.5f, 1);
-		l2.hasLightSpot = 0;
-		l2.init(this);
-		this.entities.add(l2);
-
-		location = new Vector2f((3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		SpotLight l3 = new SpotLight(location, 1f, 0f, 0f);
-		l3.intensity = (Float) generateRandom(2f, 2.5f, 1);
+		Vector2f location2 = new Vector2f((1 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (1 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
+		SpotLight l3 = new SpotLight(location2, 1f, 0f, 0f);
+		l3.intensity = 2.486118f;
 		l3.hasLightSpot = 0;
 		l3.init(this);
 		this.entities.add(l3);
+		
+		Vector2f location = new Vector2f((3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
+		PointLight l2 = new PointLight(location, 1f, 0f, 0f);
+		l2.intensity = 2.486118f;
+		l2.hasLightSpot = 0;
+		l2.init(this);
+		this.entities.add(l2);
 
 		// Add a normal Tile: 
 		//				setTile(9, 9, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
@@ -118,29 +118,6 @@ public class World {
 		//				this.entities.add(b);
 		// Add Animated Text:
 		// 				AnimatedText at = new AnimatedText("?!.-,_%#$&'()*+:;<=>/^´``", 50, 50, 5);
-	}
-
-	public Object generateRandom(float min, float max, int type) {
-		if (type == 0) {
-			// Generate Random
-			Random rand = new Random();
-			int out = rand.nextInt((int) max);
-			// Loop until the requirements are correct
-			while (out > max || out < min)
-				out = rand.nextInt((int) max);
-			// Return the value
-			return out;
-		} else if (type == 1) {
-			// Generate Random
-			Random rand = new Random();
-			double out = min + (max - min) * rand.nextDouble();
-			// Loop until the requirements are correct
-			while (out > max || out < min)
-				out = min + (max - min) * rand.nextDouble();
-			// Return the value
-			return (float) out;
-		}
-		return 0f;
 	}
 
 	/**
@@ -183,7 +160,7 @@ public class World {
 				if (e instanceof Light) {
 					// If its a Light render it and its shadows. 
 					((Light) e).renderShadows(entities, worldTiles);
-					((Light) e).render();
+					((Light) e).render();		
 					// If not just render the Entity.
 				} else e.render(getNearByLights(e.getX(), e.getY()));
 			}
@@ -211,6 +188,7 @@ public class World {
 
 		if (this.goingUp) this.DAY_LIGHT += 0.001f;
 		else this.DAY_LIGHT -= 0.001f;
+		this.DAY_LIGHT = 0.1f;
 	}
 
 	/**

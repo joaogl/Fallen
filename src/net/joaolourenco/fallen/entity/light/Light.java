@@ -19,6 +19,8 @@ package net.joaolourenco.fallen.entity.light;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
+
 import net.joaolourenco.fallen.entity.Entity;
 import net.joaolourenco.fallen.graphics.Shader;
 import net.joaolourenco.fallen.settings.GeneralSettings;
@@ -87,6 +89,7 @@ public abstract class Light extends Entity {
 		// Setting the spot center to 1 which is the default, and also setting the type to 1 has the default light, Point Light.  
 		this.type = 1;
 		this.hasLightSpot = 1;
+		this.lightCollidable = false;
 	}
 
 	/**
@@ -111,6 +114,7 @@ public abstract class Light extends Entity {
 		this.blue = blue;
 		this.intensity = inte;
 		this.hasLightSpot = 1;
+		this.lightCollidable = false;
 	}
 
 	/**
@@ -120,6 +124,7 @@ public abstract class Light extends Entity {
 		if (this.facing <= 360) this.facing++;
 		else this.facing = 0;
 		this.size = 90;
+		if (Keyboard.isKeyDown(Keyboard.KEY_R)) shade.recompile();
 	}
 
 	/**
@@ -136,7 +141,7 @@ public abstract class Light extends Entity {
 		// Getting the right light coordinates.S
 		float xx = this.location.getX() - this.world.getXOffset();
 		float yy = this.location.getY() - this.world.getYOffset();
-		// Sending all the information from the lights to the shader.
+		// Sending all the information from the light to the shader.
 		glUniform1f(glGetUniformLocation(shade.getShader(), "lightInt"), this.intensity);
 		glUniform2f(glGetUniformLocation(shade.getShader(), "lightLocation"), xx, GeneralSettings.HEIGHT - yy);
 		glUniform3f(glGetUniformLocation(shade.getShader(), "lightColor"), this.red, this.green, this.blue);
@@ -160,10 +165,10 @@ public abstract class Light extends Entity {
 		// Drawing the QUAD.
 		glBegin(GL_QUADS);
 		{
-			glVertex2f(0 + this.world.getXOffset(), 0 + this.world.getYOffset());
-			glVertex2f(0 + this.world.getXOffset(), GeneralSettings.HEIGHT + this.world.getYOffset());
+			glVertex2f(this.world.getXOffset(), this.world.getYOffset());
+			glVertex2f(this.world.getXOffset(), GeneralSettings.HEIGHT + this.world.getYOffset());
 			glVertex2f(GeneralSettings.WIDTH + this.world.getXOffset(), GeneralSettings.HEIGHT + this.world.getYOffset());
-			glVertex2f(GeneralSettings.WIDTH + this.world.getXOffset(), 0 + this.world.getYOffset());
+			glVertex2f(GeneralSettings.WIDTH + this.world.getXOffset(), this.world.getYOffset());
 		}
 		glEnd();
 

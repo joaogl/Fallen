@@ -118,7 +118,7 @@ public abstract class Entity {
 
 		// Putting all the coordinates inside a float array.
 		for (int i = 0; i < howMany * 2; i += 2) {
-			if (i < ent.size() && ent.get(i >> 1) != null && ((Light)ent.get(i)).getLightState()) {
+			if (i < ent.size() && ent.get(i >> 1) != null && ((Light) ent.get(i)).getLightState()) {
 				float xx = ent.get(i >> 1).getX() - this.world.getXOffset();
 				float yy = GeneralSettings.HEIGHT - (ent.get(i >> 1).getY() - this.world.getYOffset());
 
@@ -127,26 +127,22 @@ public abstract class Entity {
 			}
 		}
 
-		// Putting all the light intensities inside a float array.
-		for (int i = 0; i < howMany; i++) {
-			if (i < ent.size() && ent.get(i) != null && ((Light)ent.get(i)).getLightState()) intensities[i] = ((Light) ent.get(i)).intensity;
-		}
-
 		// Putting all the colors inside a float array.
 		for (int i = 0; i < howMany * 3; i += 3) {
-			if (i < ent.size() && ent.get(i / 3) != null && ((Light)ent.get(i)).getLightState()) {
+			if (i < ent.size() && ent.get(i / 3) != null && ((Light) ent.get(i)).getLightState()) {
 				colors[i] = ((Light) ent.get(i / 3)).red;
 				colors[i + 1] = ((Light) ent.get(i / 3)).green;
 				colors[i + 2] = ((Light) ent.get(i / 3)).blue;
 			}
 		}
 
-		// Putting the size, type and facing of the light inside a float array.
+		// Putting the size, type, facing and intensities of the light inside a float array.
 		for (int i = 0; i < howMany; i++) {
-			if (i < ent.size() && ent.get(i) != null && ((Light)ent.get(i)).getLightState()) {
+			if (i < ent.size() && ent.get(i) != null && ((Light) ent.get(i)).getLightState()) {
 				type[i] = ((Light) ent.get(i)).getType();
 				size[i] = ((Light) ent.get(i)).getSize();
 				facing[i] = ((Light) ent.get(i)).getFacing();
+				intensities[i] = ((Light) ent.get(i)).intensity;
 			}
 		}
 
@@ -154,6 +150,7 @@ public abstract class Entity {
 		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), this.world.DAY_LIGHT * 2);
 
 		// Sending all the previus information from the floats to the shader.
+		glUniform1i(glGetUniformLocation(shade.getShader(), "lightAmount"), type.length);
 		glUniform2(glGetUniformLocation(shade.getShader(), "lightPosition"), Buffer.createFloatBuffer(positions));
 		glUniform3(glGetUniformLocation(shade.getShader(), "lightColor"), Buffer.createFloatBuffer(colors));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightIntensity"), Buffer.createFloatBuffer(intensities));

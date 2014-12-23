@@ -144,11 +144,6 @@ public abstract class Tile {
 			}
 		}
 
-		// Putting all the light intensities inside a float array.
-		for (int i = 0; i < howMany; i++) {
-			if (i < ent.size() && ent.get(i) != null && ((Light) ent.get(i)).getLightState()) intensities[i] = ((Light) ent.get(i)).intensity;
-		}
-
 		// Putting all the colors inside a float array.
 		for (int i = 0; i < howMany * 3; i += 3) {
 			if (i < ent.size() && ent.get(i / 3) != null && ((Light) ent.get(i)).getLightState()) {
@@ -158,12 +153,13 @@ public abstract class Tile {
 			}
 		}
 
-		// Putting the size, type and facing of the light inside a float array.
+		// Putting the size, type, facing and intensities of the light inside a float array.
 		for (int i = 0; i < howMany; i++) {
 			if (i < ent.size() && ent.get(i) != null && ((Light) ent.get(i)).getLightState()) {
 				type[i] = ((Light) ent.get(i)).getType();
 				size[i] = ((Light) ent.get(i)).getSize();
 				facing[i] = ((Light) ent.get(i)).getFacing();
+				intensities[i] = ((Light) ent.get(i)).intensity;
 			}
 		}
 
@@ -173,6 +169,7 @@ public abstract class Tile {
 		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
 
 		// Sending all the previus information from the floats to the shader.
+		glUniform1i(glGetUniformLocation(shade.getShader(), "lightAmount"), type.length);
 		glUniform2(glGetUniformLocation(shade.getShader(), "lightPosition"), Buffer.createFloatBuffer(positions));
 		glUniform3(glGetUniformLocation(shade.getShader(), "lightColor"), Buffer.createFloatBuffer(colors));
 		glUniform1(glGetUniformLocation(shade.getShader(), "lightIntensity"), Buffer.createFloatBuffer(intensities));
