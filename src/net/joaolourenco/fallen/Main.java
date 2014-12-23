@@ -160,6 +160,7 @@ public class Main implements Runnable {
 				// Once per second this is reached
 				String title = GeneralSettings.fullname + " FPS: " + frames + " UPS: " + updates;
 				if (GeneralSettings.useAverageFPS) title += " Average: " + avg;
+				if (GeneralSettings.showLightFloat) title += " Light: " + world.DAY_LIGHT;
 				Display.setTitle(title);
 				tick();
 				sum += frames;
