@@ -55,7 +55,7 @@ public abstract class Tile {
 	/**
 	 * Shader ID for the tiles.
 	 */
-	public Shader shade = new Shader(GeneralSettings.lightBlockerPath, GeneralSettings.entityVertexPath);
+	public Shader shade = new Shader(GeneralSettings.blockFragPath, GeneralSettings.entityVertexPath);
 
 	/**
 	 * Constructor for tiles with a different with and height.

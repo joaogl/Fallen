@@ -62,7 +62,7 @@ public abstract class Light extends Entity {
 	/**
 	 * Shader ID for the Light.
 	 */
-	public Shader shade = new Shader(GeneralSettings.lightPath);
+	public Shader shade = new Shader(GeneralSettings.lightFragPath);
 
 	/**
 	 * Constructor for the normal light with color and location.

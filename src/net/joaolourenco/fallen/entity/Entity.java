@@ -65,7 +65,7 @@ public abstract class Entity {
 	/**
 	 * Shader ID for the entity.
 	 */
-	public Shader shade = new Shader(GeneralSettings.lightBlockerPath, GeneralSettings.entityVertexPath);
+	public Shader shade = new Shader(GeneralSettings.blockFragPath, GeneralSettings.entityVertexPath);
 
 	/**
 	 * Constructor for the Entities.
