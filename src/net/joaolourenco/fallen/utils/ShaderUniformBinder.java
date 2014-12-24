@@ -26,6 +26,12 @@ import net.joaolourenco.fallen.world.World;
 
 import static org.lwjgl.opengl.GL20.*;
 
+/**
+ * Class to all the Uniforms Binder.
+ * 
+ * @author Joao Lourenco
+ *
+ */
 public class ShaderUniformBinder {
 
 	/**
