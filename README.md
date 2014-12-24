@@ -1,7 +1,7 @@
 Fallen
 ======
 
-This game is being developed by Joao Lourenco, with the help of Domenic Viczian. 
+This game is being developed by Joao Lourenco, with the Domenic Viczian ideas. 
 Fallen is a Action/Adventure roguelike kinda game.
 
 **Ideas**
@@ -23,8 +23,18 @@ Fallen is a Action/Adventure roguelike kinda game.
 
 TO-DO
 ====
-- Make the background change with the lights.
-
+- Make the shaders work with multiple lights.
+- Test if there is a faster way to render the tiles. (Maybe using the vertex arrays like the letters)
+- Make Dialog windows.
+- Add Multiplayer support.
+- Add server side level generation.
+- Add server side movement and collision.
+- Add pings checker.
+- Add accounts.
+- Add a way to allow the player to be any entity.
+- Add server entities.
+- Add chat.
+- Add account support.
 
 License
 ======
