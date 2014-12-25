@@ -36,6 +36,10 @@ TO-DO
 - Add chat.
 - Add account support.
 
+DONE
+====
+
+
 License
 ======
 Apache License 2.0

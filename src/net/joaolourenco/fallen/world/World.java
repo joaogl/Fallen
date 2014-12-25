@@ -21,11 +21,8 @@ import java.util.ArrayList;
 import net.joaolourenco.fallen.Main;
 import net.joaolourenco.fallen.entity.Entity;
 import net.joaolourenco.fallen.entity.light.Light;
-import net.joaolourenco.fallen.entity.light.PointLight;
-import net.joaolourenco.fallen.entity.light.SpotLight;
 import net.joaolourenco.fallen.graphics.Texture;
 import net.joaolourenco.fallen.settings.GeneralSettings;
-import net.joaolourenco.fallen.utils.Vector2f;
 import net.joaolourenco.fallen.world.tile.SolidTile;
 import net.joaolourenco.fallen.world.tile.Tile;
 
@@ -85,22 +82,6 @@ public class World {
 			}
 		}
 
-		// setTile(1, 1, new FireTile(GeneralSettings.TILE_SIZE, Texture.Fire[0], this));
-
-		Vector2f location2 = new Vector2f((1 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (1 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		SpotLight l3 = new SpotLight(location2, 1f, 0f, 0f);
-		l3.intensity = 2.486118f;
-		l3.hasLightSpot = 0;
-		l3.init(this);
-		this.entities.add(l3);
-		
-		Vector2f location = new Vector2f((3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		PointLight l2 = new PointLight(location, 1f, 0f, 0f);
-		l2.intensity = 2.486118f;
-		l2.hasLightSpot = 0;
-		l2.init(this);
-		this.entities.add(l2);
-
 		// Add a normal Tile: 
 		//				setTile(9, 9, new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt));
 		// Add a fire Tile: 
@@ -158,7 +139,7 @@ public class World {
 				if (e instanceof Light) {
 					// If its a Light render it and its shadows. 
 					((Light) e).renderShadows(entities, worldTiles);
-					((Light) e).render();		
+					((Light) e).render();
 					// If not just render the Entity.
 				} else e.render(getNearByLights(e.getX(), e.getY()));
 			}

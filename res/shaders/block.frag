@@ -32,7 +32,7 @@ void main() {
 	int num = 0;
 	int changed = 0;			
 	
-	for (int i = 0; i < lightAmount; i++) {
+	for (int i = 0; i < lightAmount + 1; i++) {
 		vec2 pos = lightPosition[i];
 		if (pos.x == 0 && pos.y == 0) continue;
 		vec3 col = lightColor[i];
